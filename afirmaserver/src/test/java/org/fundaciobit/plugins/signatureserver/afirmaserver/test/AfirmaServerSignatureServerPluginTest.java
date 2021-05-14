@@ -28,7 +28,7 @@ public class AfirmaServerSignatureServerPluginTest {
         props.put("plugins.signatureserver.afirmaserver.debug", "false");
         props.put("plugins.signatureserver.afirmaserver.printxml", "false");
         props.put("plugins.signatureserver.afirmaserver.defaultAliasCertificate", "afirmades-firma");
-        props.put("plugins.signatureserver.afirmaserver.TransformersTemplatesPath", "C:\\Users\\areus\\FEINA\\projectes\\portafib\\afirma\\transformersTemplates");
+        props.put("plugins.signatureserver.afirmaserver.TransformersTemplatesPath", ".\\config\\transformersTemplates");
         props.put("plugins.signatureserver.afirmaserver.endpoint", "https://afirmades.caib.es:4430/afirmaws/services/DSSAfirmaSign");
         props.put("plugins.signatureserver.afirmaserver.endpoint_upgrade", "https://afirmades.caib.es:4430/afirmaws/services/DSSAfirmaVerify");
         props.put("plugins.signatureserver.afirmaserver.authorization.username", "passarela_pfi");

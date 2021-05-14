@@ -28,10 +28,25 @@
                     </div>  
                     <h:commandButton action="#{afirmaServerController.crearPlugin()}"
                                      styleClass="btn btn-primary"
-                                     value="Crear notificació">
-                        <f:ajax execute="@form" render="@form" />
+                                     value="Crear plugin">
+                        <f:ajax execute="@form" render="@form :messages" />
                     </h:commandButton>
-                    <p>#{afirmaServerController.pluginName}</p>                                      
+                    <p>#{afirmaServerController.pluginName}</p> 
+                    
+                    <div class="form-group">
+                        <h:outputLabel for="fitxer">Document a signar</h:outputLabel>
+                        <h:inputFile id="fitxer" value="#{afirmaServerController.fitxer}"
+                                     styleClass="form-control-file"/>
+                        <h:message for="fitxer" errorStyle="color: red"/>
+                    </div>
+                    
+                    <h:commandButton action="#{afirmaServerController.signar()}"
+                                     styleClass="btn btn-primary"
+                                     value="Signar">
+                        <f:ajax execute="@form" render="@form :messages" />
+                    </h:commandButton>                       
+                     
+                                                        
                     <!-- 
                     <div class="form-row">
                         <div class="form-group col">
