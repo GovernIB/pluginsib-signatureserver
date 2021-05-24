@@ -76,6 +76,17 @@
     </dependency>
 
     <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcpkix-jdk15on</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk15on</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
       <groupId>es.gob.afirma</groupId>
       <artifactId>Integra-commons</artifactId>
       <version>2.2.1_000</version>
@@ -85,6 +96,14 @@
       <artifactId>Integra-commons-xml</artifactId>
       <version>2.2.1_000</version>
       <exclusions>
+        <exclusion>
+          <groupId>xerces</groupId>
+          <artifactId>xercesImpl</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>xalan</groupId>
+          <artifactId>xalan</artifactId>
+        </exclusion>
         <exclusion>
           <groupId>org.apache.santuario</groupId>
           <artifactId>xmlsec</artifactId>
@@ -100,6 +119,14 @@
       <artifactId>Integra-ws</artifactId>
       <version>2.2.1_000</version>
       <exclusions>
+        <exclusion>
+          <groupId>com.sun.xml.bind</groupId>
+          <artifactId>jaxb-impl</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>sun-jaxws</groupId>
+          <artifactId>stax-ex</artifactId>
+        </exclusion>
         <exclusion>
           <groupId>org.apache.axis</groupId>
           <artifactId>axis</artifactId>
@@ -118,50 +145,6 @@
         </exclusion>
       </exclusions>
     </dependency>
-
-    <!--
-    <exclusions>
-      <exclusion>
-        <groupId>org.apache.axis</groupId>
-        <artifactId>axis</artifactId>
-      </exclusion>
-      <exclusion>
-        <groupId>org.apache.axis</groupId>
-        <artifactId>axis-jaxrpc</artifactId>
-      </exclusion>
-      <exclusion>
-        <groupId>org.apache.axis</groupId>
-        <artifactId>axis-saaj</artifactId>
-      </exclusion>
-      <exclusion>
-        <groupId>org.apache.santuario</groupId>
-        <artifactId>xmlsec</artifactId>
-      </exclusion>
-      <exclusion>
-        <groupId>com.sun.xml.security</groupId>
-        <artifactId>xml-security-impl</artifactId>
-      </exclusion>
-      <exclusion>
-        <groupId>com.sun.xml.wss</groupId>
-        <artifactId>xws-security</artifactId>
-      </exclusion>
-      <exclusion>
-        <groupId>org.bouncycastle</groupId>
-        <artifactId>bcprov-jdk16</artifactId>
-      </exclusion>
-      <exclusion>
-        <groupId>org.bouncycastle</groupId>
-        <artifactId>bcmail-jdk16</artifactId>
-      </exclusion>
-      <exclusion>
-        <groupId>org.bouncycastle</groupId>
-        <artifactId>bctsp-jdk16</artifactId>
-      </exclusion>
-
-    </exclusions>
-
-
-    -->
 
     <dependency>
       <groupId>org.freemarker</groupId>
