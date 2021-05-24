@@ -36,19 +36,19 @@
     <dependency>
       <groupId>es.gob.afirma</groupId>
       <artifactId>afirma-crypto-cades</artifactId>
-      <version>3.3.2-SNAPSHOT</version>
+      <version>1.6.5</version>
     </dependency>
 
     <dependency>
       <groupId>es.gob.afirma</groupId>
       <artifactId>afirma-crypto-pdf</artifactId>
-      <version>3.3.2-SNAPSHOT</version>
+      <version>1.6.5</version>
     </dependency>
 
     <dependency>
       <groupId>es.gob.afirma</groupId>
       <artifactId>afirma-crypto-xades</artifactId>
-      <version>3.3.2-SNAPSHOT</version>
+      <version>1.6.5</version>
     </dependency>
 
   </dependencies>
