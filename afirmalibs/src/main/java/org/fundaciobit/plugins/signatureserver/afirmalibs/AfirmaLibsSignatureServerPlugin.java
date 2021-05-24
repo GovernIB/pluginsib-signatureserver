@@ -171,7 +171,6 @@ public class AfirmaLibsSignatureServerPlugin extends AbstractSignatureServerPlug
 
   @Override
   public String[] getSupportedSignatureTypes() {
-    // TODO Falta CADes, ...
     return new String[] { FileInfoSignature.SIGN_TYPE_PADES,
         FileInfoSignature.SIGN_TYPE_CADES, FileInfoSignature.SIGN_TYPE_XADES };
   }

@@ -14,7 +14,6 @@ import javax.inject.Named;
 import javax.servlet.http.Part;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.nio.file.Files;

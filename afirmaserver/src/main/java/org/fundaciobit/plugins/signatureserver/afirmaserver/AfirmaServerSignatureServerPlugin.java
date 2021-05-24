@@ -556,16 +556,14 @@ public int getReadTimeout() {
           applicationID = getPropertyRequired(APPLICATIONID_SENSE_SEGELLLAT_DE_TEMPS_PROPERTY);
         }
 
-        boolean isXML = XMLUtil.isXml(fileInfo.getFileToSign());
         if (debug) {
-          log.info("Doc ES XML: " + isXML);
           log.info("applicationID = " + applicationID);
         }
 
-        if (!FileInfoSignature.SIGN_TYPE_PADES.equals(tipusFirma) && isXML) {
-          inParams.put(DSSTagsRequest.BASE64XML, Base64.getEncoder().encodeToString(bytesToSign));
-        } else {
+        if (FileInfoSignature.SIGN_TYPE_PADES.equals(tipusFirma) || !XMLUtil.isXml(fileInfo.getFileToSign())) {
           inParams.put(DSSTagsRequest.BASE64DATA, Base64.getEncoder().encodeToString(bytesToSign));
+        } else {
+          inParams.put(DSSTagsRequest.BASE64XML, Base64.getEncoder().encodeToString(bytesToSign));
         }
 
         // Indicamos el nombre del documento a firmar

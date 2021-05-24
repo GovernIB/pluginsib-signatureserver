@@ -5,9 +5,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.security.MessageDigest;
+import java.security.Security;
 import java.util.Calendar;
 import java.util.Properties;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 import org.fundaciobit.plugins.signatureserver.afirmalibs.AfirmaLibsSignatureServerPlugin;
@@ -25,6 +27,7 @@ public class AfirmaLibsUpgradeTest {
 
   public static void main(String[] args) {
 
+    Security.addProvider(new BouncyCastleProvider());
     try {
 
       byte[] fileToSign = getSimpleFileFromResource("hola_signat.pdf");
