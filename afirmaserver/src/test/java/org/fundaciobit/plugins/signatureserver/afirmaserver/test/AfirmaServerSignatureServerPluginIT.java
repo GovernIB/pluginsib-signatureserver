@@ -30,7 +30,7 @@ public class AfirmaServerSignatureServerPluginIT {
     @BeforeClass
     public static void setup() throws IOException {
         Properties props = new Properties();
-        try (var inputStream = new FileInputStream("plugin.properties")) {
+        try (var inputStream = new FileInputStream("config/plugin.properties")) {
             props.load(inputStream);
         }
         plugin = new AfirmaServerSignatureServerPlugin("", props);

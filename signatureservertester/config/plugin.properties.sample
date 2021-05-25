@@ -1,15 +1,15 @@
 plugins.signatureserver=afirmaserver,afirmalibs
 
 plugins.signatureserver.afirmaserver.class=org.fundaciobit.plugins.signatureserver.afirmaserver.AfirmaServerSignatureServerPlugin
-plugins.signatureserver.afirmaserver.applicationID=CAIBDEV2.PORTAFIB
+plugins.signatureserver.afirmaserver.applicationID=XXXXXX
 plugins.signatureserver.afirmaserver.debug=false
 plugins.signatureserver.afirmaserver.printxml=false
-plugins.signatureserver.afirmaserver.defaultAliasCertificate=afirmades-firma
+plugins.signatureserver.afirmaserver.defaultAliasCertificate=serversigner
 plugins.signatureserver.afirmaserver.TransformersTemplatesPath=/opt/signatureserver/transformersTemplates
-plugins.signatureserver.afirmaserver.endpoint=https://afirmades2.caib.es/afirmaws/services/DSSAfirmaSign
-plugins.signatureserver.afirmaserver.endpoint_upgrade=https://afirmades2.caib.es/afirmaws/services/DSSAfirmaVerify
-plugins.signatureserver.afirmaserver.authorization.username=PORTAFIB
-plugins.signatureserver.afirmaserver.authorization.password=PORTAFIB
+plugins.signatureserver.afirmaserver.endpoint=https:/servidorafirma/afirmaws/services/DSSAfirmaSign
+plugins.signatureserver.afirmaserver.endpoint_upgrade=https://servidorafirma/afirmaws/services/DSSAfirmaVerify
+plugins.signatureserver.afirmaserver.authorization.username=XXXX
+plugins.signatureserver.afirmaserver.authorization.password=XXXX
 
 plugins.signatureserver.afirmalibs.class=org.fundaciobit.plugins.signatureserver.afirmalibs.AfirmaLibsSignatureServerPlugin
 plugins.signatureserver.afirmalibs.defaultAliasCertificate=segellfnmt
