@@ -4,6 +4,7 @@ import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 import org.fundaciobit.plugins.signatureserver.afirmaserver.AfirmaServerSignatureServerPlugin;
 import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
 import org.junit.Assert;
@@ -15,6 +16,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Properties;
@@ -57,6 +59,21 @@ public class AfirmaServerSignatureServerPluginIT {
     }
 
     @Test
+    public void testSignPdfSignat() throws URISyntaxException {
+
+        File file = getFile("/testfiles/signat.pdf");
+
+        SignaturesSet signaturesSet = getSignaturesSet(
+                getFileInfoSignature(file, FileInfoSignature.PDF_MIME_TYPE, FileInfoSignature.SIGN_TYPE_PADES)
+        );
+        SignaturesSet set = plugin.signDocuments(signaturesSet, null, null);
+        validarStatus(set, STATUS_FINAL_OK, STATUS_FINAL_OK);
+
+        File signedData = set.getFileInfoSignatureArray()[0].getStatusSignature().getSignedData();
+        Assert.assertTrue(signedData.renameTo(new File("result" + System.currentTimeMillis() + ".pdf")));
+    }
+
+    @Test
     public void testSignXml() throws URISyntaxException {
 
         File file = getFile("/testfiles/sample.xml");
@@ -64,14 +81,25 @@ public class AfirmaServerSignatureServerPluginIT {
         SignaturesSet signaturesSet = getSignaturesSet(
                 getFileInfoSignature(file,"application/xml", FileInfoSignature.SIGN_TYPE_XADES)
         );
-
         SignaturesSet set = plugin.signDocuments(signaturesSet, null, null);
-
         validarStatus(set, STATUS_FINAL_OK, STATUS_FINAL_OK);
 
-        System.out.println(set.getFileInfoSignatureArray()[0].getStatusSignature().getSignedData().getName());
         File signedData = set.getFileInfoSignatureArray()[0].getStatusSignature().getSignedData();
         Assert.assertTrue(signedData.renameTo(new File("result" + System.currentTimeMillis() + ".xsig")));
+    }
+
+    @Test
+    public void testSignUpgradeSignat() throws Exception {
+
+        File signedFile = getFile("/testfiles/signat.pdf");
+        byte[] signedFileBytes = Files.readAllBytes(signedFile.toPath());
+
+        byte[] upgradeSignatureBytes = plugin.upgradeSignature(signedFileBytes, null,
+                SignatureTypeFormEnumForUpgrade.PAdES_LT_LEVEL,
+                null, null);
+
+        File upgradeSignatureFile = new File("upgrade" + System.currentTimeMillis() + ".pdf");
+        Files.write(upgradeSignatureFile.toPath(), upgradeSignatureBytes);
     }
 
     private void validarStatus(SignaturesSet set, int statusGeneral, int... fileStatus) {

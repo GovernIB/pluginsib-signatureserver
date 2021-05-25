@@ -1,0 +1,3 @@
+embed-server
+/system-property=org.fundaciobit.signatureserver.path:add(value=/opt/signatureserver)
+stop-embedded-server
