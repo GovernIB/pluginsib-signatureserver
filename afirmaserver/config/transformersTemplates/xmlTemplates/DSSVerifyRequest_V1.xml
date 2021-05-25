@@ -47,6 +47,7 @@
 		<afxp:ReturnSignedDataInfo afirmaNodeType="optional"/>
 		<afxp:ReturnUpdatedSignature afirmaNodeType="optional"/>
 		<afxp:TargetSigner afirmaNodeType="optional"/>
+		<afxp:CertificateValidationLevel afirmaNodeType="optional"/>
 	</dss:OptionalInputs>
 	
 	<dss:SignatureObject>
