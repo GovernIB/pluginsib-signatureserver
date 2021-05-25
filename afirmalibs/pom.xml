@@ -37,6 +37,11 @@
       <artifactId>bcpkix-jdk15on</artifactId>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.apache.santuario</groupId>
+      <artifactId>xmlsec</artifactId>
+      <scope>provided</scope>
+    </dependency>
     
     <dependency>
       <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
@@ -60,6 +65,16 @@
       <groupId>es.gob.afirma</groupId>
       <artifactId>afirma-crypto-xades</artifactId>
       <version>1.6.5</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.santuario</groupId>
+          <artifactId>xmlsec</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>javax.xml.bind</groupId>
+          <artifactId>jaxb-api</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
   </dependencies>
