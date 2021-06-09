@@ -52,19 +52,19 @@
     <dependency>
       <groupId>es.gob.afirma</groupId>
       <artifactId>afirma-crypto-cades</artifactId>
-      <version>1.6.5</version>
+      <version>${afirma.version}</version>
     </dependency>
 
     <dependency>
       <groupId>es.gob.afirma</groupId>
       <artifactId>afirma-crypto-pdf</artifactId>
-      <version>1.6.5</version>
+      <version>${afirma.version}</version>
     </dependency>
 
     <dependency>
       <groupId>es.gob.afirma</groupId>
       <artifactId>afirma-crypto-xades</artifactId>
-      <version>1.6.5</version>
+      <version>${afirma.version}</version>
       <exclusions>
         <exclusion>
           <groupId>org.apache.santuario</groupId>

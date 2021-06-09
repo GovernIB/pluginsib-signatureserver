@@ -1,5 +1,7 @@
 package org.fundaciobit.plugins.signatureserver.miniappletutils;
 
+import es.gob.afirma.keystores.filters.CertFilterManager;
+import es.gob.afirma.keystores.filters.CertificateFilter;
 import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
@@ -368,45 +370,18 @@ public class MiniAppletUtils {
     }
   }
   
-  
-  
-  
 
-  public static boolean matchFilter(X509Certificate certificate, String filter)
-      throws IOException, Exception, NoSuchMethodException, InstantiationException,
-      IllegalAccessException, InvocationTargetException {
+  public static boolean matchFilter(X509Certificate certificate, String filter) throws IOException {
     Properties propertyFilters = new Properties();
     propertyFilters.load(new StringReader(filter));
 
-    MiniAppletClassLoader macl = new MiniAppletClassLoader();
-
-    // CertFilterManager certFilterManager = new
-    // CertFilterManager(propertyFilters);
-    Class<?> certFilterManagerClass = macl
-        .loadClass("es.gob.afirma.keystores.filters.CertFilterManager");
-    Constructor<?> contructor = certFilterManagerClass.getConstructor(Properties.class);
-    Object certFilterManager = contructor.newInstance(propertyFilters);
-
-    
-    // List<CertificateFilter> filtres = certFilterManager.getFilters();
-    Method method2 = macl.getMethod(certFilterManagerClass, "getFilters");
-    List<? extends Object> filtres = (List<? extends Object>) method2
-        .invoke(certFilterManager);
-
-    // Es fa una OR entre tots els filtres
-    for (Object object : filtres) {
-
-      // boolean match = filter.matches(certificate1);
-      Method methodMatches = macl.getMethod(object.getClass(), "matches");
-      Boolean match = (Boolean) methodMatches.invoke(object, certificate);
-      if (match) {
+    CertFilterManager filterManager = new CertFilterManager(propertyFilters);
+    for (CertificateFilter f : filterManager.getFilters()) {
+      if (f.matches(certificate)) {
         return true;
       }
     }
-
     return false;
   }
-
-  
 
 }

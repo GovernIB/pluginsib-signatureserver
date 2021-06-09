@@ -13,65 +13,13 @@ import org.fundaciobit.pluginsib.core.utils.FileUtils;
  */
 public class MiniAppletClassLoader {
 
-
-  
-  private URLClassLoader miniAppletClassLoader = null;
-  
-  
-  public URLClassLoader getMiniAppletClassLoader() {
-    
-    if (miniAppletClassLoader == null) {
-      
-      Class<?> cls = this.getClass();
-      
-      URL[] urls = new URL[] { 
-        FileUtils.getResourceAsURL(cls, "applet/miniapplet.jar"),
-        //FileUtils.getResourceAsURL(cls, "applet/miniappletui.jar")
-      };
-      
-      miniAppletClassLoader = new URLClassLoader(urls, String.class.getClassLoader());
-    }
-
-    return miniAppletClassLoader;
-
-  }
-  
-  // XYZ 
-  public URLClassLoader getMiniAppletClassLoader2() {
-    
-    
-    {
-     
-      Class<?> cls = this.getClass();
-      
-      URL[] urls = new URL[] { 
-        FileUtils.getResourceAsURL(cls, "applet/miniapplet.jar"),
-        //FileUtils.getResourceAsURL(cls, "applet/miniappletui.jar")
-      };
-      
-      miniAppletClassLoader = new URLClassLoader(urls);
-    }
-
-    return miniAppletClassLoader;
-
-  }
-  
-  
   public Class<?>  loadClass(String name) throws Exception {
-    Class<?> classToLoad;
-    try {
-      classToLoad = Class.forName (name, true, getMiniAppletClassLoader());
-    } catch(java.lang.ClassNotFoundException cnfe) {
-      classToLoad = Class.forName (name, true, getMiniAppletClassLoader2());
-    }
-    return classToLoad;
+    return Class.forName(name);
   }
-  
   
   public Method getMethod(Class<?> cls, String methodName) throws Exception {
     Method method = null;
-    
-    
+
     for(Method m : cls.getMethods()) {
       if (m.getName().equals(methodName)) {
         method = m;
@@ -85,7 +33,5 @@ public class MiniAppletClassLoader {
     }
     return method;
   }
-  
-  
-  
+
 }

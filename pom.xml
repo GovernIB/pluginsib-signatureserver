@@ -13,6 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <jboss-eap.version>7.2.9.GA</jboss-eap.version>
+        <afirma.version>1.6.5</afirma.version>
     </properties>
 
     <modules>
