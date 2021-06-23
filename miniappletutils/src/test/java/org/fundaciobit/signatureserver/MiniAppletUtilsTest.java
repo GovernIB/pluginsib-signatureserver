@@ -1,65 +1,52 @@
 package org.fundaciobit.signatureserver;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.security.cert.X509Certificate;
-
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
 import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import java.io.InputStream;
+import java.security.cert.X509Certificate;
 
 /**
  * 
  * @author anadal
- *
+ * @author areus
  */
-public class MiniAppletUtilsTest extends TestCase {
-  /**
-   * Create the test case
-   *
-   * @param testName
-   *          name of the test case
-   */
-  public MiniAppletUtilsTest(String testName) {
-    super(testName);
+public class MiniAppletUtilsTest {
+
+  @Test
+  public void testDNIeAmbFiltreCoincident() throws Exception {
+    InputStream certstream = MiniAppletUtilsTest.class.getResourceAsStream("/Ciudadano_firma_activo.cer");
+    assert certstream != null;
+    X509Certificate certificate1 = CertificateUtils.decodeCertificate(certstream);
+
+    String filter =
+            "filters=nonexpired:\n" +
+                    "filters.1=issuer.rfc2254:|(cn=AC DNIE 001)(cn=AC DNIE 002)(cn=AC DNIE 003)(cn=AC DNIE 004)";
+
+    Assert.assertTrue(MiniAppletUtils.matchFilter(certificate1, filter));
   }
 
-  /**
-   * @return the suite of tests being tested
-   */
-  public static Test suite() {
-    return new TestSuite(MiniAppletUtilsTest.class);
+  @Test
+  public void testDNIeSenseFiltre() throws Exception {
+    InputStream certstream = MiniAppletUtilsTest.class.getResourceAsStream("/Ciudadano_firma_activo.cer");
+    assert certstream != null;
+    X509Certificate certificate1 = CertificateUtils.decodeCertificate(certstream);
+
+    // Quan no tenim cap filtre, hauria de passar? Que passam el filtre
+    Assert.assertTrue(MiniAppletUtils.matchFilter(certificate1, null));
   }
 
-  /**
-   * Rigourous Test :-)
-   */
-  public void testApp() {
-    assertTrue(true);
-    main(null);
-  }
+  @Test
+  public void testDNIeAmbFiltreExcloent() throws Exception {
+    InputStream certstream = MiniAppletUtilsTest.class.getResourceAsStream("/Ciudadano_firma_activo.cer");
+    assert certstream != null;
+    X509Certificate certificate1 = CertificateUtils.decodeCertificate(certstream);
 
-  public static void main(String[] args) {
+    String filter = "filters.1=issuer.rfc2254:(cn=AC CACA)";
 
-    try {
-      String filePath = "DNIe_firma.cer";
-      InputStream certstream = new FileInputStream(new File(filePath));
-      X509Certificate certificate1 = CertificateUtils.decodeCertificate(certstream);
-
-      String filter = "filter=issuer.rfc2254:|(cn=AC DNIE 001)(cn=AC DNIE 002)(cn=AC DNIE 003)";
-
-      Boolean match = MiniAppletUtils.matchFilter(certificate1, filter);
-
-      System.out.println(" FINAL :: match => " + match);
-
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-
+    Assert.assertFalse(MiniAppletUtils.matchFilter(certificate1, filter));
   }
 
 }

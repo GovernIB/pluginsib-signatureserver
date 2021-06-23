@@ -13,6 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <jboss-eap.version>7.2.9.GA</jboss-eap.version>
+        <pluginsib-core.version>2.0.1</pluginsib-core.version>
         <afirma.version>1.6.5</afirma.version>
     </properties>
 
@@ -123,10 +124,6 @@
                         <requireJavaVersion>
                             <version>11</version>
                         </requireJavaVersion>
-                        <!-- Per detectar problemes de dependències
-                        <banDuplicatePomDependencyVersions/>
-                        <dependencyConvergence/>
-                        <reactorModuleConvergence/> -->
                     </rules>
                 </configuration>
                 <executions>
@@ -137,8 +134,58 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>com.github.github</groupId>
+                <artifactId>site-maven-plugin</artifactId>
+                <version>0.12</version>
+                <configuration>
+                    <message>Maven artifacts for ${project.artifactId} ${project.version}</message>
+                    <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
+                    <noJekyll>true</noJekyll>
+                    <branch>refs/heads/gh-pages</branch>
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
+                    <path>maven</path>
+                    <repositoryName>maven</repositoryName>
+                    <repositoryOwner>GovernIB</repositoryOwner>
+                    <server>github_governib_maven</server>
+                    <merge>true</merge>
+                    <dryRun>false</dryRun>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>site</goal>
+                        </goals>
+                        <phase>deploy</phase>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <!-- Profile per executar els tests d'integració -->
+            <id>testsIntegracio</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <repositories>
         <repository>
@@ -158,17 +205,14 @@
                 <updatePolicy>never</updatePolicy>
             </snapshots>
         </repository>
-        <repository>
-            <id>jboss-thirdparty-releases</id>
-            <name>JBoss 3rd-party Repository</name>
-            <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases/</url>
-            <releases>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-        </repository>
     </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>github_governib_maven</id>
+            <name>GitHub GovernIB Maven Repository</name>
+            <url>file://${project.build.directory}/mvn-repo</url>
+        </repository>
+    </distributionManagement>
 
 </project>

@@ -16,13 +16,27 @@
     <dependency>
       <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
       <artifactId>pluginsib-signatureserver-api</artifactId>
-      <version>3.1.0-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>es.gob.afirma</groupId>
       <artifactId>afirma-keystores-filters</artifactId>
       <version>${afirma.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>es.gob.afirma.jmulticard</groupId>
+          <artifactId>jmulticard</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>es.gob.afirma.jmulticard</groupId>
+          <artifactId>jmulticard-jse</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>es.gob.afirma.jmulticard</groupId>
+          <artifactId>jmulticard-ui</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>

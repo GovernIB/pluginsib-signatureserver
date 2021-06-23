@@ -3,8 +3,8 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
-    <version>3.1.0-SNAPSHOT</version>
     <artifactId>pluginsib-signatureserver</artifactId>
+    <version>3.1.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>pluginsib-signatureserver-afirmaserver</artifactId>
@@ -14,17 +14,15 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.fundaciobit.pluginsib.core</groupId>
-      <artifactId>pluginsib-core</artifactId>
-      <version>2.0.0</version>
-      <scope>provided</scope>
+      <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+      <artifactId>pluginsib-signatureserver-api</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
-      <artifactId>pluginsib-signatureserver-api</artifactId>
-      <version>3.1.0-SNAPSHOT</version>
-      <scope>provided</scope>
+      <artifactId>pluginsib-signatureserver-miniappletutils</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
@@ -80,6 +78,7 @@
       <artifactId>bcpkix-jdk15on</artifactId>
       <scope>provided</scope>
     </dependency>
+
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk15on</artifactId>
@@ -91,6 +90,7 @@
       <artifactId>Integra-commons</artifactId>
       <version>2.2.1_000</version>
     </dependency>
+
     <dependency>
       <groupId>es.gob.afirma</groupId>
       <artifactId>Integra-commons-xml</artifactId>
@@ -114,6 +114,7 @@
         </exclusion>
       </exclusions>
     </dependency>
+
     <dependency>
       <groupId>es.gob.afirma</groupId>
       <artifactId>Integra-ws</artifactId>
@@ -150,12 +151,6 @@
       <groupId>org.freemarker</groupId>
       <artifactId>freemarker</artifactId>
       <version>2.3.23</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
-      <artifactId>pluginsib-signatureserver-miniappletutils</artifactId>
-      <version>3.1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
