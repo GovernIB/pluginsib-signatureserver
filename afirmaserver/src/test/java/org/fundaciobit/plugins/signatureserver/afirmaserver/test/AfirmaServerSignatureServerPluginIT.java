@@ -3,7 +3,6 @@ package org.fundaciobit.plugins.signatureserver.afirmaserver.test;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
-import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 import org.fundaciobit.plugins.signatureserver.afirmaserver.AfirmaServerSignatureServerPlugin;
 import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
@@ -14,6 +13,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -30,7 +30,7 @@ public class AfirmaServerSignatureServerPluginIT {
     @BeforeClass
     public static void setup() throws IOException {
         Properties props = new Properties();
-        try (var inputStream = new FileInputStream("config/plugin.properties")) {
+        try (InputStream inputStream = new FileInputStream("config/plugin.properties")) {
             props.load(inputStream);
         }
         plugin = new AfirmaServerSignatureServerPlugin("", props);

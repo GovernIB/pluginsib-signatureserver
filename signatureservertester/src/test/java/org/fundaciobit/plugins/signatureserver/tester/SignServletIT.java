@@ -1,12 +1,14 @@
 package org.fundaciobit.plugins.signatureserver.tester;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.fundaciobit.pluginsib.core.utils.FileUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,6 +17,8 @@ import org.junit.Test;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
@@ -40,7 +44,7 @@ public class SignServletIT {
         HttpEntity reqEntity = getHttpEntity("/testfiles/normal.pdf", "application/pdf", "afirmaserver");
         httpPost.setEntity(reqEntity);
 
-        try (var response = httpclient.execute(httpPost)) {
+        try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
             HttpEntity resEntity = response.getEntity();
             Assert.assertEquals(200, response.getStatusLine().getStatusCode());
             Assert.assertEquals("application/pdf", resEntity.getContentType().getValue());
@@ -54,7 +58,7 @@ public class SignServletIT {
         HttpEntity reqEntity = getHttpEntity("/testfiles/normal.pdf", "application/pdf", "afirmalibs");
         httpPost.setEntity(reqEntity);
 
-        try (var response = httpclient.execute(httpPost)) {
+        try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
             HttpEntity resEntity = response.getEntity();
             Assert.assertEquals(200, response.getStatusLine().getStatusCode());
             Assert.assertEquals("application/pdf", resEntity.getContentType().getValue());
@@ -68,7 +72,7 @@ public class SignServletIT {
         HttpEntity reqEntity = getHttpEntity("/testfiles/imatge.jpg", "image/jpeg", "afirmaserver");
         httpPost.setEntity(reqEntity);
 
-        try (var response = httpclient.execute(httpPost)) {
+        try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
             HttpEntity resEntity = response.getEntity();
             Assert.assertEquals(200, response.getStatusLine().getStatusCode());
             Assert.assertEquals("application/octet-stream", resEntity.getContentType().getValue());
@@ -81,7 +85,7 @@ public class SignServletIT {
         HttpEntity reqEntity = getHttpEntity("/testfiles/imatge.jpg", "image/jpeg", "afirmalibs");
         httpPost.setEntity(reqEntity);
 
-        try (var response = httpclient.execute(httpPost)) {
+        try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
             HttpEntity resEntity = response.getEntity();
             Assert.assertEquals(200, response.getStatusLine().getStatusCode());
             Assert.assertEquals("application/octet-stream", resEntity.getContentType().getValue());
@@ -95,7 +99,7 @@ public class SignServletIT {
         HttpEntity reqEntity = getHttpEntity("/testfiles/sample.xml", "text/xml", "afirmaserver");
         httpPost.setEntity(reqEntity);
 
-        try (var response = httpclient.execute(httpPost)) {
+        try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
             HttpEntity resEntity = response.getEntity();
             Assert.assertEquals(200, response.getStatusLine().getStatusCode());
             Assert.assertEquals("text/xml", resEntity.getContentType().getValue());
@@ -108,7 +112,7 @@ public class SignServletIT {
         HttpEntity reqEntity = getHttpEntity("/testfiles/sample.xml", "text/xml", "afirmalibs");
         httpPost.setEntity(reqEntity);
 
-        try (var response = httpclient.execute(httpPost)) {
+        try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
             HttpEntity resEntity = response.getEntity();
             Assert.assertEquals(200, response.getStatusLine().getStatusCode());
             Assert.assertEquals("text/xml", resEntity.getContentType().getValue());
@@ -132,9 +136,9 @@ public class SignServletIT {
 
     private void saveResult(HttpEntity resEntity, String afirmalibs, String s) throws IOException {
         File result = new File(afirmalibs + System.currentTimeMillis() + s);
-        try (var os = new FileOutputStream(result);
-             var is = resEntity.getContent()) {
-            is.transferTo(os);
+        try (OutputStream os = new FileOutputStream(result);
+             InputStream is = resEntity.getContent()) {
+            FileUtils.copy(is, os);
         }
     }
 }

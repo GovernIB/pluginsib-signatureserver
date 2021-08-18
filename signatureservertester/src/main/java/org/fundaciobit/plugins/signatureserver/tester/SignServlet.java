@@ -5,6 +5,7 @@ import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
+import org.fundaciobit.pluginsib.core.utils.FileUtils;
 import org.fundaciobit.pluginsib.core.utils.PluginsManager;
 
 import javax.servlet.ServletConfig;
@@ -19,6 +20,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -40,7 +43,7 @@ public class SignServlet extends HttpServlet {
         String configDir = System.getProperty("org.fundaciobit.signatureserver.path");
 
         Properties properties = new Properties();
-        try (var inputStream = new FileInputStream(configDir + "/plugin.properties")) {
+        try (InputStream inputStream = new FileInputStream(configDir + "/plugin.properties")) {
             properties.load(inputStream);
         } catch (IOException ioException) {
             throw new ServletException("Error llegint plugin.properties", ioException);
@@ -73,9 +76,9 @@ public class SignServlet extends HttpServlet {
         CommonInfoSignature commonInfoSignature = new CommonInfoSignature("ca", "", null, null);
 
         Path tempFile = Files.createTempFile("sign", "temp");
-        try (var os = new FileOutputStream(tempFile.toFile());
-             var is = fitxer.getInputStream()) {
-            is.transferTo(os);
+        try (OutputStream os = new FileOutputStream(tempFile.toFile());
+             InputStream is = fitxer.getInputStream()) {
+            FileUtils.copy(is, os);
         }
 
         String fileName = fitxer.getSubmittedFileName();
@@ -100,8 +103,8 @@ public class SignServlet extends HttpServlet {
         File signedData = set.getFileInfoSignatureArray()[0].getStatusSignature().getSignedData();
         response.setContentLengthLong(signedData.length());
         response.setContentType(signResultContentType(contentType));
-        try (var inputStream = new FileInputStream(signedData)) {
-            inputStream.transferTo(response.getOutputStream());
+        try (InputStream inputStream = new FileInputStream(signedData)) {
+            FileUtils.copy(inputStream, response.getOutputStream());
         } finally {
             if (!signedData.delete()) {
                 signedData.deleteOnExit();

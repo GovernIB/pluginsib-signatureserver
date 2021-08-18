@@ -376,7 +376,7 @@ public class MiniAppletUtils {
     }
 
     public static boolean matchFilter(X509Certificate certificate, String filter) throws IOException {
-        if (filter == null || filter.isBlank()) {
+        if (filter == null || filter.trim().isEmpty()) {
             return true;
         }
 
