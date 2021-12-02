@@ -127,17 +127,14 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   
   public AfirmaServerSignatureServerPlugin() {
     super();
-    init();
   }
 
   public AfirmaServerSignatureServerPlugin(String propertyKeyBase, Properties properties) {
     super(propertyKeyBase, properties);
-    init();
   }
 
   public AfirmaServerSignatureServerPlugin(String propertyKeyBase) {
     super(propertyKeyBase);
-    init();
   }
 
   //////////////////////////////////////////////////////
@@ -150,13 +147,18 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
   private Semaphore signSemaphore;
   private Semaphore upgradeSemaphore;
+  
+  private boolean initalized = false;
 
-  private void init() {
-    initTransformersFacade();
-    initConfiguration();
-    initApiSign();
-    initApiUpgrade();
-    initSemaphores();
+  private synchronized void init() {
+      if (!initalized) {
+          initTransformersFacade();
+          initConfiguration();
+          initApiSign();
+          initApiUpgrade();
+          initSemaphores();
+          initalized = true;
+      }
   }
 
   
@@ -387,14 +389,17 @@ public int getReadTimeout() {
   @Override
   public String filter(SignaturesSet signaturesSet, Map<String, Object> parameters) {
 
-    final boolean suportXAdES_T = true;
+      init();
 
-    if (isIgnoreServerCertificates()) {
-      throw new UnsupportedOperationException("La propietat [" + IGNORE_SERVER_CERTIFICATES + "] ja no està soportada." +
-              "Si necessita connectar a un servidor SSL amb un certificat no reconegut per la JVM, incorpori'l al trustStore.");
-    }
+      final boolean suportXAdES_T = true;
 
-    return checkFilter(this, signaturesSet, suportXAdES_T, this.log);// OK
+      if (isIgnoreServerCertificates()) {
+          throw new UnsupportedOperationException("La propietat [" + IGNORE_SERVER_CERTIFICATES
+                  + "] ja no està soportada."
+                  + "Si necessita connectar a un servidor SSL amb un certificat no reconegut per la JVM, incorpori'l al trustStore.");
+      }
+
+      return checkFilter(this, signaturesSet, suportXAdES_T, this.log);// OK
   }
 
   public String getAliasCertificate(SignaturesSet signaturesSet) throws Exception {
@@ -426,6 +431,8 @@ public int getReadTimeout() {
    */
   @Override
   public SignaturesSet signDocuments(SignaturesSet signaturesSet, String timestampUrlBase,Map<String, Object> parameters) {
+      
+      init();
 
     final CommonInfoSignature commonInfoSignature = signaturesSet.getCommonInfoSignature();
 
@@ -821,6 +828,8 @@ public int getReadTimeout() {
     if(typeform == null){
       throw new Exception("Tipo formato a actualizar la firma vale null");
     }
+    
+    init();
     
     SignatureFormatEnum dssSignatureFormat = convertEnum(typeform);
 

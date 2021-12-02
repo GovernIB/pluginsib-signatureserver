@@ -26,14 +26,35 @@ import static org.fundaciobit.plugins.signature.api.StatusSignaturesSet.STATUS_F
 public class AfirmaServerSignatureServerPluginIT {
 
     private static ISignatureServerPlugin plugin;
+    
+    public static void main(String[] args) {
+
+        try {
+
+            AfirmaServerSignatureServerPluginIT.setup("org.fundaciobit.exemple.signatureserverplugins.3.");
+
+            AfirmaServerSignatureServerPluginIT plugin = new AfirmaServerSignatureServerPluginIT();
+            plugin.testSignPdf();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
 
     @BeforeClass
     public static void setup() throws IOException {
+        setup("");
+    }
+        
+        
+    public static void setup(String propertyBase) throws IOException {
         Properties props = new Properties();
         try (InputStream inputStream = new FileInputStream("config/plugin.properties")) {
             props.load(inputStream);
         }
-        plugin = new AfirmaServerSignatureServerPlugin("", props);
+        plugin = new AfirmaServerSignatureServerPlugin(propertyBase, props);
     }
 
     @Test

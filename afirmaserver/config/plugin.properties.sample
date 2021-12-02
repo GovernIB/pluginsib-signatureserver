@@ -22,6 +22,11 @@ plugins.signatureserver.afirmaserver.prinxml=false
 plugins.signatureserver.afirmaserver.endpoint=http://localhost:9090/afirmaws/services/DSSAfirmaSign
 plugins.signatureserver.afirmaserver.endpoint_upgrade=http://localhost:9090/afirmaws/services/DSSAfirmaVerify
 
+# opcional (Default 60000)
+es.caib.portafib.plugins.signatureserver.afirmaserver.connectTimeout=300000
+es.caib.portafib.plugins.signatureserver.afirmaserver.readTimeout=300000 
+
+
 # USERNAME-PASSWORD Token
 plugins.signatureserver.afirmaserver.authorization.username=userTest
 plugins.signatureserver.afirmaserver.authorization.password=12345
