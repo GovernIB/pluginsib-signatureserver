@@ -23,6 +23,11 @@ import java.util.Properties;
 
 import static org.fundaciobit.plugins.signature.api.StatusSignaturesSet.STATUS_FINAL_OK;
 
+/**
+ * 
+ * @author anadal
+ *
+ */
 public class AfirmaServerSignatureServerPluginIT {
 
     private static ISignatureServerPlugin plugin;

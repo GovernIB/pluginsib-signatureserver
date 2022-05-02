@@ -11,7 +11,7 @@
 
     <artifactId>signatureservertester</artifactId>
     <packaging>war</packaging>
-    <name>FundacioBit - PluginsIB - SignatureServer - Tester</name>
+    <name>FundacioBit - PluginsIB - SignatureServer - Tester </name>
 
 
     <dependencies>

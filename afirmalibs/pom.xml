@@ -1,85 +1,76 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
-    <version>3.1.0-SNAPSHOT</version>
-    <artifactId>pluginsib-signatureserver</artifactId>
-  </parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+        <version>3.1.0-SNAPSHOT</version>
+        <artifactId>pluginsib-signatureserver</artifactId>
+    </parent>
 
-  <artifactId>pluginsib-signatureserver-afirmalibs</artifactId>
-  <packaging>jar</packaging>
-  <name>FundacioBit - PluginsIB - SignatureServer - @firma Libs</name>
+    <artifactId>pluginsib-signatureserver-afirmalibs</artifactId>
+    <packaging>jar</packaging>
+    <name>FundacioBit - PluginsIB - SignatureServer - @firma Libs</name>
 
-  <dependencies>
+    <dependencies>
 
-    <dependency>
-      <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
-      <artifactId>pluginsib-signatureserver-api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+            <artifactId>pluginsib-signatureserver-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
-      <artifactId>pluginsib-signatureserver-miniappletutils</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+            <artifactId>pluginsib-signatureserver-miniappletutils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-    <!--
-    <dependency>
-      <groupId>org.fundaciobit.pluginsib.core</groupId>
-      <artifactId>pluginsib-core</artifactId>
-      <version>${pluginsib-core.version}</version>
-    </dependency>
-    -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcprov-jdk15on</artifactId>
-      <scope>provided</scope>
-    </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcpkix-jdk15on</artifactId>
-      <scope>provided</scope>
-    </dependency>
+        <dependency>
+            <groupId>org.apache.santuario</groupId>
+            <artifactId>xmlsec</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-    <dependency>
-      <groupId>org.apache.santuario</groupId>
-      <artifactId>xmlsec</artifactId>
-      <scope>provided</scope>
-    </dependency>
+        <dependency>
+            <groupId>es.gob.afirma</groupId>
+            <artifactId>afirma-crypto-cades</artifactId>
+            <version>${afirma.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>es.gob.afirma</groupId>
-      <artifactId>afirma-crypto-cades</artifactId>
-      <version>${afirma.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>es.gob.afirma</groupId>
+            <artifactId>afirma-crypto-pdf</artifactId>
+            <version>${afirma.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>es.gob.afirma</groupId>
-      <artifactId>afirma-crypto-pdf</artifactId>
-      <version>${afirma.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>es.gob.afirma</groupId>
+            <artifactId>afirma-crypto-xades</artifactId>
+            <version>${afirma.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.santuario</groupId>
+                    <artifactId>xmlsec</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.xml.bind</groupId>
+                    <artifactId>jaxb-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
-    <dependency>
-      <groupId>es.gob.afirma</groupId>
-      <artifactId>afirma-crypto-xades</artifactId>
-      <version>${afirma.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.apache.santuario</groupId>
-          <artifactId>xmlsec</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>javax.xml.bind</groupId>
-          <artifactId>jaxb-api</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
-  </dependencies>
+    </dependencies>
 
 
 </project>

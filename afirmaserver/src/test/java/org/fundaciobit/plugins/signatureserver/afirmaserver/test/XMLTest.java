@@ -1,6 +1,6 @@
 package org.fundaciobit.plugins.signatureserver.afirmaserver.test;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.fundaciobit.plugins.signatureserver.afirmaserver.XMLUtil;
 import org.fundaciobit.pluginsib.core.utils.FileUtils;
 import org.junit.Test;
@@ -9,6 +9,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * 
+ * @author anadal
+ *
+ */
 public class XMLTest {
 
     @Test

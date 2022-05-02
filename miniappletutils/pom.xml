@@ -20,9 +20,30 @@
     </dependency>
 
     <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <scope>provided</scope>
+    </dependency>
+<!--
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk15on</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcpkix-jdk15on</artifactId>
+      <optional>true</optional>
+    </dependency>
+    
+    -->
+    
+
+    <dependency>
       <groupId>es.gob.afirma</groupId>
       <artifactId>afirma-keystores-filters</artifactId>
       <version>${afirma.version}</version>
+      <scope>test</scope>
       <exclusions>
         <exclusion>
           <groupId>es.gob.afirma.jmulticard</groupId>
@@ -39,22 +60,6 @@
       </exclusions>
     </dependency>
 
-    <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcprov-jdk15on</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcpkix-jdk15on</artifactId>
-      <optional>true</optional>
-    </dependency>
 
   </dependencies>
 

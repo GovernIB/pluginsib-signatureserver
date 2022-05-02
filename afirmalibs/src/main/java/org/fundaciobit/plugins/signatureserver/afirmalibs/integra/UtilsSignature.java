@@ -9,6 +9,11 @@ import org.bouncycastle.util.Store;
 
 import com.aowagie.text.pdf.PdfName;
 
+/**
+ * 
+ * @author anadal
+ *
+ */
 public class UtilsSignature {
 
   public static Logger LOGGER = Logger.getLogger(UtilsSignature.class);
@@ -44,7 +49,7 @@ public class UtilsSignature {
   }
 
   
-  public static X509CertificateHolder getX509CertificateHolderBySignerId(Store certificatesStore,
+  public static X509CertificateHolder getX509CertificateHolderBySignerId(Store<?> certificatesStore,
       SignerId signerId) {
     if (certificatesStore != null && certificatesStore.getMatches(null) != null && signerId != null) {
         for (Object certObj : certificatesStore.getMatches(null)) {
