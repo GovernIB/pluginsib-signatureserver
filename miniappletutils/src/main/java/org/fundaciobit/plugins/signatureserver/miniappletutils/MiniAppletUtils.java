@@ -10,8 +10,14 @@ import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
 import org.fundaciobit.pluginsib.core.utils.Base64;
 import org.fundaciobit.pluginsib.core.utils.FileUtils;
 
+import es.gob.afirma.keystores.filters.CertFilterManager;
+import es.gob.afirma.keystores.filters.CertificateFilter;
+
+import java.io.IOException;
+import java.io.StringReader;
 import java.security.cert.X509Certificate;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -365,6 +371,29 @@ public class MiniAppletUtils {
             }
 
         }
+    }
+    
+    public static boolean matchFilter(X509Certificate certificate, String filter) throws IOException {
+        if (filter == null || filter.trim().isEmpty()) {
+            return true;
+        }
+
+        Properties propertyFilters = new Properties();
+        propertyFilters.load(new StringReader(filter));
+
+        CertFilterManager filterManager = new CertFilterManager(propertyFilters);
+        List<CertificateFilter> filters = filterManager.getFilters();
+
+        if (filters.isEmpty()) {
+            return true;
+        }
+
+        for (CertificateFilter f : filters) {
+            if (f.matches(certificate)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     
