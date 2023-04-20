@@ -24,20 +24,20 @@ public interface ISignaturePlugin extends IPlugin {
   /**
    * @return Le soperacions de firma suportades segons el tipus de firma
    * @param signType Tipus de Firma
-   * @see FileInfoSignature.SIGNATURE_OPERATION_SIGN = FIRMA
-   * @see FileInfoSignature.SIGNATURE_OPERATION_COSIGN = COFIRMA
-   * @see FileInfoSignature.SIGNATURE_OPERATION_COUNTERSIGN = CONTRAFIRMA
+   * @see FileInfoSignature#SIGNATURE_OPERATION_SIGN = FIRMA
+   * @see FileInfoSignature#SIGNATURE_OPERATION_COSIGN = COFIRMA
+   * @see FileInfoSignature#SIGNATURE_OPERATION_COUNTERSIGN = CONTRAFIRMA
    */
   public int[] getSupportedOperationsBySignType(String signType);
 
   /**
    * @return Els tipus de firma suportats. Actualment només es suporta PAdES.
-   * @see FileInfoSignature.SIGN_TYPE_PADES = "PAdES";
-   * @see FileInfoSignature.SIGN_TYPE_XADES = "XAdES";
-   * @see FileInfoSignature.SIGN_TYPE_CADES = "CAdES";
-   * @see FileInfoSignature.SIGN_TYPE_FACTURAE = "FacturaE";
-   * @see FileInfoSignature.SIGN_TYPE_OOXML = "OOXML";
-   * @see FileInfoSignature.SIGN_TYPE_ODF = "ODF";
+   * @see FileInfoSignature#SIGN_TYPE_PADES = "PAdES";
+   * @see FileInfoSignature#SIGN_TYPE_XADES = "XAdES";
+   * @see FileInfoSignature#SIGN_TYPE_CADES = "CAdES";
+   * @see FileInfoSignature#SIGN_TYPE_FACTURAE = "FacturaE";
+   * @see FileInfoSignature#SIGN_TYPE_OOXML = "OOXML";
+   * @see FileInfoSignature#SIGN_TYPE_ODF = "ODF";
    */
   public String[] getSupportedSignatureTypes();
 
@@ -46,8 +46,26 @@ public interface ISignaturePlugin extends IPlugin {
    *          Tipus de Firma
    * @return Retorna els algorismes suportats segons els tipus de firma passat
    *         per paràmetre
+   *  @see FileInfoSignature#SIGN_ALGORITHM_SHA1
+   *  @see FileInfoSignature#SIGN_ALGORITHM_SHA256
+   *  @see FileInfoSignature#SIGN_ALGORITHM_SHA384
+   *  @see FileInfoSignature#SIGN_ALGORITHM_SHA512        
    */
   public String[] getSupportedSignatureAlgorithms(String signType);
+  
+  
+  /**
+   * @param signType
+   *          Tipus de Firma
+   * @return Retorna els modes de firma  suportats segons els tipus de firma passat
+   *         per paràmetre
+   * @see FileInfoSignature#SIGN_MODE_ATTACHED_ENVELOPED
+   * @see FileInfoSignature#SIGN_MODE_ATTACHED_ENVELOPING
+   * @see FileInfoSignature#SIGN_MODE_DETACHED
+   * @see FileInfoSignature#SIGN_MODE_INTERNALLY_DETACHED
+   */
+  public int[] getSupportedSignatureModes(String signType);
+  
 
   /**
    * @return Retorna els tipus de Barcode suportats per l'estampació del Codi

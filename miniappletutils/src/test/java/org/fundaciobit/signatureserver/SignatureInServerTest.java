@@ -81,14 +81,14 @@ public class SignatureInServerTest extends TestCase {
       // PADES SIGN
       {
         String signType = FileInfoSignature.SIGN_TYPE_PADES;
-        int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT;
+        int signMode = FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED;
         signFile(pdfsource, pdfdest, pair, signType, signMode);
       }
 
       // XADES ATACHED
       {
         String signType = FileInfoSignature.SIGN_TYPE_XADES;
-        int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT; // Attached
+        int signMode = FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING; // Attached
         
         String xadesAttachedDest = "hola.pdf.xades_attached.xml";
         signFile(pdfsource, xadesAttachedDest, pair, signType, signMode);
@@ -97,7 +97,7 @@ public class SignatureInServerTest extends TestCase {
       // XADES DETACHED
       {
         String signType = FileInfoSignature.SIGN_TYPE_XADES;
-        int signMode = FileInfoSignature.SIGN_MODE_EXPLICIT; // Detached
+        int signMode = FileInfoSignature.SIGN_MODE_DETACHED; // Detached
         String xadesAttachedDest = "hola.pdf.xades_detached.xml";
         signFile(pdfsource, xadesAttachedDest, pair, signType, signMode);
       }

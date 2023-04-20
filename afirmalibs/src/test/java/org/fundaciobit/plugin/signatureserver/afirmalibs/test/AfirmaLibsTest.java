@@ -83,6 +83,8 @@ public class AfirmaLibsTest extends TestCase {
       IRubricGenerator rubricGenerator = null;
 
       for (int i = 0; i < tests.length; i++) {
+          
+          System.out.println("\n\n =============  TEST[" + i + "] ================");
 
         String test = tests[i];
 
@@ -106,7 +108,7 @@ public class AfirmaLibsTest extends TestCase {
 
         System.out.println("Provant amb usuari ]" + username + "[");
 
-        int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT;
+        int signMode = FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED;
         boolean userRequiresTimeStamp = false;
 
         signFile(fileSource, fileDest, signType, signMode, userRequiresTimeStamp,

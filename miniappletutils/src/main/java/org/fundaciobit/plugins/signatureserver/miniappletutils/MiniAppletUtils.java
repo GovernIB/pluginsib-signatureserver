@@ -171,13 +171,16 @@ public class MiniAppletUtils {
          * implicit La firma resultante incluirá internamente una copia de los datos
          * firmados. El uso de este valor podría generar firmas de gran tamaño.
          */
-        if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_IMPLICIT
+        if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED
+                || fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING
                 || FileInfoSignature.SIGN_TYPE_SMIME.equals(fileInfo.getSignType())) {
             miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGN_MODE,
                     MiniAppletConstants.VALUE_SIGN_MODE_IMPLICIT);
-        } else {
+        } else if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_DETACHED) {
             miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGN_MODE,
                     MiniAppletConstants.VALUE_SIGN_MODE_EXPLICIT);
+        } else {
+            log.warn("convertCommon:: No es suporta el mode de firma ]" + fileInfo.getSignMode() + "[");
         }
 
         // Location (comú a Pades, Xades i cades)
@@ -243,7 +246,7 @@ public class MiniAppletUtils {
          */
 
         //log.info("XADES MODE=> fileInfo.getSignMode() = " + fileInfo.getSignMode());
-        if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_IMPLICIT) {
+        if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING) {
             /*
              * implicit La firma resultante incluirá internamente una copia de los datos
              * firmados. El uso de este valor podría generar firmas de gran tamaño.
@@ -252,7 +255,7 @@ public class MiniAppletUtils {
 
             miniAppletProperties.setProperty("format", SIGN_FORMAT_XADES_ENVELOPING);
 
-        } else {
+        } else if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_DETACHED) {
             /*
              * explicit La firma resultante no incluirá los datos firmados. Si no se
              * indica el parámetro mode se configura automáticamente este
@@ -266,6 +269,8 @@ public class MiniAppletUtils {
             //miniAppletProperties.setProperty("mode", "explicit");
 
             miniAppletProperties.setProperty("format", SIGN_FORMAT_XADES_DETACHED);
+        } else {
+            log.warn("convertCommon:: No es suporta el mode de firma ]" + fileInfo.getSignMode() + "[");
         }
 
         final String mime = fileInfo.getMimeType();
