@@ -40,6 +40,9 @@ public class AfirmaServerSignatureServerPluginIT {
 
             AfirmaServerSignatureServerPluginIT tester = new AfirmaServerSignatureServerPluginIT();
 
+            
+            tester.testSignBigPdf();
+            
             //tester.testSignPdf();
 
             //tester.testSignPdfSignat();
@@ -58,7 +61,7 @@ public class AfirmaServerSignatureServerPluginIT {
 
             //tester.testSignCAdES_Attached_Enveloped_No_Suportat();
 
-            tester.testSignCAdES_Detached();
+            //tester.testSignCAdES_Detached();
 
             System.out.println(" --- FINAL --- ");
 
@@ -89,6 +92,19 @@ public class AfirmaServerSignatureServerPluginIT {
     // =================================
     // ============  PDF ===============
     // =================================
+    
+    @Test
+    public void testSignBigPdf() throws URISyntaxException {
+
+        long start = System.currentTimeMillis();
+        
+        try {
+          signPdf("/testfiles/BIG_29Mb.pdf", "testSignBigPdf");
+        } finally {
+            System.err.println("Temps total: " + (System.currentTimeMillis() - start));
+        }
+    }
+    
 
     @Test
     public void testSignPdf() throws URISyntaxException {
