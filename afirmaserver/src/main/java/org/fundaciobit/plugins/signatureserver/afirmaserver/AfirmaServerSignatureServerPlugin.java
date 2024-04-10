@@ -486,7 +486,11 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
                 final String tipusFirma = fileInfo.getSignType();
                 String signType;
                 if (FileInfoSignature.SIGN_TYPE_PADES.equals(tipusFirma)) {
-                    signType = SignTypesURIs.PADES;
+                    if (fileInfo.isUserRequiresTimeStamp()) {
+                        signType = SignTypesURIs.PADES_BASELINE_2_1_1;
+                    } else {
+                        signType = SignTypesURIs.PADES;
+                    }
                 } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(tipusFirma)) {
                     signType = SignTypesURIs.XADES_V_1_3_2;
                 } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(tipusFirma)
@@ -506,18 +510,35 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
                 // MODE PER XADES
                 String xmlSignMode = null;
                 if (FileInfoSignature.SIGN_TYPE_XADES.equals(tipusFirma)) {
-                    if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED) {
+                    
+                    
+                    // Veure https://ec.europa.eu/digital-building-blocks/DSS/webapp-demo/doc/dss-documentation.html#Packaging
+                    // veure https://ec.europa.eu/digital-building-blocks/DSS/webapp-demo/doc/dss-documentation.html#SignatureProfileGuide
+                    
+                    if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_EXPLICIT 
+                            || fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED) {
                         // Afirma no suporta DETACHED, el que si suporta es Internally Detached
                         /* 12/04/2023
                          Buenos días,
                         
-                            Respecto a esta incidencia, entendemos que lo que se requiere es realizar una firma en modo Externally Detached en la que no se incluye el documento original firmado.
-                            En el manual de uso de las librerías de Integr@ v2.2.1_000 disponible para su descarga en el PAe, concretamente en el apartado "A.6.3.1 Formato XAdES" del punto "A.6.3 Uso de la interfaz Signer", se muestran diversos ejemplos de implementación para generar una firma XAdES Externally Detached con dicha interfaz Signer (página 354 en adelante).
-                            En este sentido, se ha realizado una prueba con dicho ejemplo de código y se ha generado una firma XAdES en modo Externally Detached a partir del documento original "documento_original_1.xml" remitido por su parte, y se ha validado correctamente la firma generada adjunta con VALIDe de forma que se incluye un elemento "" donde se hace referencia al hash del documento externo a firmar.
-                            En el caso de realizarlo mediante petición DSS a la plataforma @firma, comentar que solamente se pueden realizar firmas en modo Internally Detached por defecto con la URI mencionada "urn:afirma:dss:1.0:profile:XSS:XMLSignatureMode:DetachedMode".
+                            Respecto a esta incidencia, entendemos que lo que se requiere es realizar una firma en modo 
+                            Externally Detached en la que no se incluye el documento original firmado.
+                            En el manual de uso de las librerías de Integr@ v2.2.1_000 disponible para su descarga en el PAe,
+                             concretamente en el apartado "A.6.3.1 Formato XAdES" del punto "A.6.3 Uso de la interfaz Signer",
+                              se muestran diversos ejemplos de implementación para generar una firma XAdES Externally Detached
+                               con dicha interfaz Signer (página 354 en adelante).
+                            En este sentido, se ha realizado una prueba con dicho ejemplo de código y se ha generado una firma
+                             XAdES en modo Externally Detached a partir del documento original "documento_original_1.xml"
+                              remitido por su parte, y se ha validado correctamente la firma generada adjunta con VALIDe
+                               de forma que se incluye un elemento "" donde se hace referencia al hash del documento
+                                externo a firmar.
+                            En el caso de realizarlo mediante petición DSS a la plataforma @firma, comentar que solamente
+                             se pueden realizar firmas en modo Internally Detached por defecto con la URI mencionada 
+                             "urn:afirma:dss:1.0:profile:XSS:XMLSignatureMode:DetachedMode".
                          */
                         xmlSignMode = XmlSignatureMode.DETACHED;
-                    } else if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING) {
+                    } else if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_IMPLICIT 
+                            ||   fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING) {
                         xmlSignMode = XmlSignatureMode.ENVELOPING;
                     } else {
                         String msg = getTraduccio("modefirma.desconegut", locale, fileInfo.getSignMode(),
@@ -620,6 +641,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
                         // https://ssweb.seap.minhap.es/ayuda/seguimiento
                         // identificador de consulta: 426066
                         // número de seguimiento: 553439
+                        // correu: otae@fundaciobit.org
                         //inParams.put(DSSTagsRequest.SIGNATURE_FORM, "urn:afirma:dss:1.0:profile:XSS:PAdES:1.1.2:forms:LTV");
                         inParams.put(DSSTagsRequest.SIGNATURE_FORM,
                                 "urn:afirma:dss:1.0:profile:XSS:AdES:forms:T-Level");

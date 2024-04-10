@@ -49,9 +49,10 @@ public class FileInfoSignature {
     public static final String SIGN_ALGORITHM_SHA512 = "SHA-512";
 
     // ========================  MODES DE FIRMA =========================
-    // Veure https://ec.europa.eu/digital-building-blocks/wikis/display/ESIGKB/What+is+the+packaging+enveloped+-+detached+-+enveloping+and+internally+detached+of+a+signature
+    // Veure https://ec.europa.eu/digital-building-blocks/DSS/webapp-demo/doc/dss-documentation.html#Packaging
+    // veure https://ec.europa.eu/digital-building-blocks/DSS/webapp-demo/doc/dss-documentation.html#SignatureProfileGuide
 
-    /** El fitxer de dades resultant inclou la firma: PDF, ... */
+    /** El fitxer de dades resultant inclou la firma: PDF, ODT, ... */
     public static final int SIGN_MODE_ATTACHED_ENVELOPED = 0;
 
     /** El fitxer resultant serà la firma que incloura les dades originals */

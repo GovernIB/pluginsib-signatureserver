@@ -41,9 +41,9 @@ public class AfirmaServerSignatureServerPluginIT {
             AfirmaServerSignatureServerPluginIT tester = new AfirmaServerSignatureServerPluginIT();
 
             
-            tester.testSignBigPdf();
+            //tester.testSignBigPdf();
             
-            //tester.testSignPdf();
+            tester.testSignPdf();
 
             //tester.testSignPdfSignat();
 
@@ -290,10 +290,11 @@ public class AfirmaServerSignatureServerPluginIT {
 
     private FileInfoSignature getFileInfoSignature(File file, String mime, String signType, int signMode) {
 
+        boolean userRequiresTimestamp = true; 
         return new FileInfoSignature("1", file, null, mime, file.getName(), null, null, null, 1, "ca",
                 FileInfoSignature.SIGN_OPERATION_SIGN, signType, FileInfoSignature.SIGN_ALGORITHM_SHA256, signMode,
-                FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT, null, null, null, false, null, null, null, null,
-                null, null, null);
+                FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT, null, null, null, userRequiresTimestamp, null, null,
+                null, null, null, null, null);
     }
 
     private File getFile(String resourceNAme) throws URISyntaxException {
