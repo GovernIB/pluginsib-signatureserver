@@ -23,7 +23,7 @@ public class MiniAppletInServerCAdESSigner extends MiniAppletClassLoader {
 
     // AOCAdESSigner signer = new es.gob.afirma.signers.cades.AOCAdESSigner();
     Class<?> cadesSignerClass = loadClass("es.gob.afirma.signers.cades.AOCAdESSigner");
-    Object cadesSignerInstance = cadesSignerClass.newInstance();
+    Object cadesSignerInstance = cadesSignerClass.getConstructor().newInstance();
     
     // byte[] firma = signer.sign("Texto a firmar".getBytes(), "SHA1withRSA", 
     //   pke, extraParams);

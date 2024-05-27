@@ -11,7 +11,7 @@ import com.aowagie.text.pdf.PdfSignature;
 import com.aowagie.text.pdf.PdfSignatureAppearance;
 import com.aowagie.text.pdf.PdfStamper;
 import com.aowagie.text.pdf.PdfString;
-import org.apache.log4j.Logger;
+
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
 import org.bouncycastle.cms.CMSSignedData;
@@ -19,6 +19,7 @@ import org.bouncycastle.cms.SignerInformation;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.tsp.TimeStampToken;
 import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
+import org.jboss.logging.Logger;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

@@ -3,14 +3,14 @@ package org.fundaciobit.plugins.signature.api;
 import java.util.List;
 import java.util.Locale;
 
-import org.fundaciobit.pluginsib.core.IPlugin;
+import org.fundaciobit.pluginsib.core.v3.IPluginIB;
 
 /**
  * 
  * @author anadal
  *
  */
-public interface ISignaturePlugin extends IPlugin {
+public interface ISignaturePlugin extends IPluginIB {
 
 
   /**

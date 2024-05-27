@@ -1,11 +1,12 @@
 package org.fundaciobit.plugins.signatureserver.afirmalibs.integra;
 
-import org.apache.log4j.Logger;
+
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cms.CMSException;
 import org.bouncycastle.cms.CMSSignedData;
 import org.bouncycastle.cms.SignerId;
 import org.bouncycastle.util.Store;
+import org.jboss.logging.Logger;
 
 import com.aowagie.text.pdf.PdfName;
 

@@ -16,9 +16,9 @@ import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletInServe
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletInServerXAdESSigner;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletSignInfo;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
-import org.fundaciobit.pluginsib.core.utils.Base64;
-import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
-import org.fundaciobit.pluginsib.core.utils.PublicCertificatePrivateKeyPair;
+import org.fundaciobit.pluginsib.core.v3.utils.Base64;
+import org.fundaciobit.pluginsib.core.v3.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.core.v3.utils.PublicCertificatePrivateKeyPair;
 
 import java.io.File;
 import java.io.FileInputStream;

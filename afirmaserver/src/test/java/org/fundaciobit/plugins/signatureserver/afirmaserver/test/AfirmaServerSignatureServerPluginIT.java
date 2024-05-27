@@ -43,7 +43,7 @@ public class AfirmaServerSignatureServerPluginIT {
             
             //tester.testSignBigPdf();
             
-            tester.testSignPdf();
+            //tester.testSignPdf();
 
             //tester.testSignPdfSignat();
 
@@ -61,7 +61,7 @@ public class AfirmaServerSignatureServerPluginIT {
 
             //tester.testSignCAdES_Attached_Enveloped_No_Suportat();
 
-            //tester.testSignCAdES_Detached();
+            tester.testSignCAdES_Detached();
 
             System.out.println(" --- FINAL --- ");
 

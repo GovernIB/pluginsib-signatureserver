@@ -15,7 +15,7 @@ import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForU
  */
 public interface ISignatureServerPlugin extends ISignaturePlugin {
 
-  public static final String SIGNATURESERVER_BASE_PROPERTY = IPLUGIN_BASE_PROPERTIES
+  public static final String SIGNATURESERVER_BASE_PROPERTY = IPLUGINSIB_BASE_PROPERTIES
       + "signatureserver.";
 
 

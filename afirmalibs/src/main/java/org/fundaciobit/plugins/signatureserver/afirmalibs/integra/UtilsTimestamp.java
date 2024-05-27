@@ -1,38 +1,14 @@
 package org.fundaciobit.plugins.signatureserver.afirmalibs.integra;
 
-import org.apache.log4j.Logger;
-
-/*
-import es.gob.afirma.signature.SigningException;
-import es.gob.afirma.transformers.TransformersException;
-import es.gob.afirma.transformers.TransformersFacade;
-import es.gob.afirma.tsaServiceInvoker.TSAServiceInvokerException;
-import es.gob.afirma.tsaServiceInvoker.TSAServiceInvokerFacade;
-import es.gob.afirma.utils.CryptoUtil;
-import es.gob.afirma.utils.KeyValueSelector;
-*/
-
-
-
-
-/*
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.log4j.Logger;
-import org.apache.xml.security.c14n.Canonicalizer;
-*/
-
 import org.bouncycastle.asn1.DERObjectIdentifier;
-/*
-import org.bouncycastle.asn1.DEREncodable;
-import org.bouncycastle.asn1.DERObject;
-import org.bouncycastle.asn1.DERObjectIdentifier;
-*/
+
 import org.bouncycastle.asn1.cms.Attribute;
 import org.bouncycastle.asn1.cms.AttributeTable;
 import org.bouncycastle.asn1.pkcs.PKCSObjectIdentifiers;
 import org.bouncycastle.cms.CMSSignedData;
 import org.bouncycastle.cms.SignerInformation;
 import org.bouncycastle.tsp.TimeStampToken;
+import org.jboss.logging.Logger;
 
 
 

@@ -8,14 +8,15 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.ISignaturePlugin;
 import org.fundaciobit.plugins.signature.api.PropertyInfo;
 import org.fundaciobit.plugins.signature.api.SecureVerificationCodeStampInfo;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
-import org.fundaciobit.pluginsib.core.utils.AbstractPluginPropertiesTranslations;
+import org.fundaciobit.pluginsib.core.v3.utils.AbstractPluginPropertiesTranslations;
+import org.jboss.logging.Logger;
 
 /**
  * 

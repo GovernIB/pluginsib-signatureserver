@@ -32,9 +32,10 @@ import org.fundaciobit.plugins.signatureserver.afirmaserver.apiws.DSSSignatureSe
 import org.fundaciobit.plugins.signatureserver.api.AbstractSignatureServerPlugin;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MIMEInputStream;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.SMIMEInputStream;
-import org.fundaciobit.pluginsib.core.utils.FileUtils;
+import org.fundaciobit.pluginsib.core.v3.utils.FileUtils;
 import org.fundaciobit.pluginsib.utils.cxf.CXFUtils;
 import org.fundaciobit.pluginsib.utils.cxf.ClientHandler;
+import org.fundaciobit.pluginsib.utils.templateengine.TemplateEngine;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -47,8 +48,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -173,7 +172,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
             ClientHandler clientHandler = CXFUtils.getClientHandler(this, AFIRMASERVER_BASE_PROPERTIES);
 
-            URL wsdlUrl = getClass().getResource("/wsdl/DSSAfirmaSign.wsdl");
+            URL wsdlUrl = new URL(endPoint + "?wsdl"); //getClass().getResource("/wsdl/DSSAfirmaSign.wsdl");
             DSSSignatureService service = new DSSSignatureService(wsdlUrl);
             apiSign = service.getDSSAfirmaSign();
 
@@ -204,8 +203,9 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
             ClientHandler clientHandler = CXFUtils.getClientHandler(this, AFIRMASERVER_BASE_PROPERTIES);
 
-            URL wsdlUrl = getClass().getResource("/wsdl/DSSAfirmaVerify.wsdl");
-            org.fundaciobit.plugins.signatureserver.afirmaserver.validarfirmaapi.DSSSignatureService service = new org.fundaciobit.plugins.signatureserver.afirmaserver.validarfirmaapi.DSSSignatureService(
+            URL wsdlUrl = new URL(endPoint + "?wsdl"); // getClass().getResource("/wsdl/DSSAfirmaVerify.wsdl");
+            org.fundaciobit.plugins.signatureserver.afirmaserver.validarfirmaapi.DSSSignatureService service;
+            service= new org.fundaciobit.plugins.signatureserver.afirmaserver.validarfirmaapi.DSSSignatureService(
                     wsdlUrl);
             apiUpgrade = service.getDSSAfirmaVerify();
 
@@ -510,12 +510,11 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
                 // MODE PER XADES
                 String xmlSignMode = null;
                 if (FileInfoSignature.SIGN_TYPE_XADES.equals(tipusFirma)) {
-                    
-                    
+
                     // Veure https://ec.europa.eu/digital-building-blocks/DSS/webapp-demo/doc/dss-documentation.html#Packaging
                     // veure https://ec.europa.eu/digital-building-blocks/DSS/webapp-demo/doc/dss-documentation.html#SignatureProfileGuide
-                    
-                    if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_EXPLICIT 
+
+                    if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_EXPLICIT
                             || fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED) {
                         // Afirma no suporta DETACHED, el que si suporta es Internally Detached
                         /* 12/04/2023
@@ -537,8 +536,8 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
                              "urn:afirma:dss:1.0:profile:XSS:XMLSignatureMode:DetachedMode".
                          */
                         xmlSignMode = XmlSignatureMode.DETACHED;
-                    } else if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_IMPLICIT 
-                            ||   fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING) {
+                    } else if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_IMPLICIT
+                            || fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING) {
                         xmlSignMode = XmlSignatureMode.ENVELOPING;
                     } else {
                         String msg = getTraduccio("modefirma.desconegut", locale, fileInfo.getSignMode(),
@@ -1314,15 +1313,20 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     public void resetAndClean() {
     }
 
-    public String processExpressionLanguage(String plantilla, Map<String, Object> custodyParameters) throws Exception {
+    public String processExpressionLanguage(String plantilla, Map<String, Object> parameters) throws Exception {
         try {
+
+            /*
             if (custodyParameters == null) {
                 custodyParameters = new HashMap<>();
             }
-
+            
             Writer out = new StringWriter();
             configuration.getTemplate(plantilla).process(custodyParameters, out);
             return out.toString();
+            */
+
+            return TemplateEngine.processExpressionLanguage(plantilla, parameters);
 
         } catch (Exception e) {
             final String msg = "No s'ha pogut processar l'Expression Language " + plantilla + ":" + e.getMessage();

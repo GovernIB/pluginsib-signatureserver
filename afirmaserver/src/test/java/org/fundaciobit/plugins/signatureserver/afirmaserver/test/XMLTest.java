@@ -2,11 +2,9 @@ package org.fundaciobit.plugins.signatureserver.afirmaserver.test;
 
 import org.junit.Assert;
 import org.fundaciobit.plugins.signatureserver.afirmaserver.XMLUtil;
-import org.fundaciobit.pluginsib.core.utils.FileUtils;
+import org.fundaciobit.pluginsib.core.v3.utils.FileUtils;
 import org.junit.Test;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -17,14 +15,14 @@ import java.io.InputStream;
 public class XMLTest {
 
     @Test
-    public void testIsXML() throws IOException, ParserConfigurationException {
+    public void testIsXML() throws Exception {
         InputStream inputStream = getClass().getResourceAsStream("/testfiles/sample.xml");
         byte[] byteArray = FileUtils.toByteArray(inputStream);
         Assert.assertTrue(XMLUtil.isXml(byteArray));
     }
 
     @Test
-    public void testIsXML2() throws IOException, ParserConfigurationException {
+    public void testIsXML2() throws Exception {
         InputStream inputStream = getClass().getResourceAsStream("/testfiles/prova.xml");
         byte[] byteArray = FileUtils.toByteArray(inputStream);
         Assert.assertTrue(XMLUtil.isXml(byteArray));

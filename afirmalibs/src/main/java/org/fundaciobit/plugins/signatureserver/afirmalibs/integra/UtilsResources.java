@@ -1,15 +1,16 @@
 package org.fundaciobit.plugins.signatureserver.afirmalibs.integra;
 
-
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Calendar;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 
 import com.aowagie.text.pdf.PdfStamper;
 
+/**
+ * 
+ */
 public class UtilsResources {
 
   public static Logger LOGGER = Logger.getLogger(UtilsResources.class);

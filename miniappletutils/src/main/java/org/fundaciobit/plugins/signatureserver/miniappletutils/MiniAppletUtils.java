@@ -1,14 +1,15 @@
 package org.fundaciobit.plugins.signatureserver.miniappletutils;
 
-import org.apache.log4j.Logger;
+
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signature.api.PdfRubricRectangle;
 import org.fundaciobit.plugins.signature.api.PdfVisibleSignature;
 import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
-import org.fundaciobit.pluginsib.core.utils.Base64;
-import org.fundaciobit.pluginsib.core.utils.FileUtils;
+import org.fundaciobit.pluginsib.core.v3.utils.Base64;
+import org.fundaciobit.pluginsib.core.v3.utils.FileUtils;
+import org.jboss.logging.Logger;
 
 import es.gob.afirma.keystores.filters.CertFilterManager;
 import es.gob.afirma.keystores.filters.CertificateFilter;

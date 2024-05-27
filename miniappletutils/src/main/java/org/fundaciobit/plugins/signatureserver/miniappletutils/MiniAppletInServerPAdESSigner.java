@@ -36,7 +36,7 @@ public class MiniAppletInServerPAdESSigner extends AbstractTriFaseSigner {
     
     Class<?> AOPkcs1Signer = loadClass("es.gob.afirma.core.signers.AOPkcs1Signer");
     
-    Object AOPkcs1Signer_instance = AOPkcs1Signer.newInstance();
+    Object AOPkcs1Signer_instance = AOPkcs1Signer.getConstructor().newInstance();
 
     Method method  = getMethod(AOPkcs1Signer, "sign");
 

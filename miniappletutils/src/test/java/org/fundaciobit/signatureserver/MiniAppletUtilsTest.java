@@ -1,7 +1,7 @@
 package org.fundaciobit.signatureserver;
 
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
-import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.core.v3.utils.CertificateUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -21,9 +21,7 @@ public class MiniAppletUtilsTest {
     assert certstream != null;
     X509Certificate certificate1 = CertificateUtils.decodeCertificate(certstream);
 
-    String filter =
-            "filters=nonexpired:\n" +
-                    "filters.1=issuer.rfc2254:|(cn=AC DNIE 001)(cn=AC DNIE 002)(cn=AC DNIE 003)(cn=AC DNIE 004)";
+    String filter = "filters.1=issuer.rfc2254:|(cn=AC DNIE 001)(cn=AC DNIE 002)(cn=AC DNIE 003)(cn=AC DNIE 004)";
 
     Assert.assertTrue(MiniAppletUtils.matchFilter(certificate1, filter));
   }

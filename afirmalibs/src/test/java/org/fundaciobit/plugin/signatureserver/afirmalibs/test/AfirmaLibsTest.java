@@ -18,7 +18,7 @@ import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureserver.afirmalibs.AfirmaLibsSignatureServerPlugin;
 import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
-import org.fundaciobit.pluginsib.core.utils.PluginsManager;
+import org.fundaciobit.pluginsib.core.v3.utils.PluginsManager;
 
 import java.io.File;
 import java.io.FileInputStream;
