@@ -1,17 +1,17 @@
-plugins.signatureserver=afirmaserver,afirmalibs
+pluginsib.signatureserver=afirmaserver,afirmalibs
 
-plugins.signatureserver.afirmaserver.class=org.fundaciobit.plugins.signatureserver.afirmaserver.AfirmaServerSignatureServerPlugin
-plugins.signatureserver.afirmaserver.applicationID=XXXXXX
-plugins.signatureserver.afirmaserver.debug=false
-plugins.signatureserver.afirmaserver.printxml=false
-plugins.signatureserver.afirmaserver.defaultAliasCertificate=serversigner
-plugins.signatureserver.afirmaserver.TransformersTemplatesPath=/opt/signatureserver/transformersTemplates
-plugins.signatureserver.afirmaserver.endpoint=https:/servidorafirma/afirmaws/services/DSSAfirmaSign
-plugins.signatureserver.afirmaserver.endpoint_upgrade=https://servidorafirma/afirmaws/services/DSSAfirmaVerify
-plugins.signatureserver.afirmaserver.authorization.username=XXXX
-plugins.signatureserver.afirmaserver.authorization.password=XXXX
+pluginsib.signatureserver.afirmaserver.class=org.fundaciobit.pluginsib.signatureserver.afirmaserver.AfirmaServerSignatureServerPlugin
+pluginsib.signatureserver.afirmaserver.applicationID=XXXXXX
+pluginsib.signatureserver.afirmaserver.debug=false
+pluginsib.signatureserver.afirmaserver.printxml=false
+pluginsib.signatureserver.afirmaserver.defaultAliasCertificate=serversigner
+pluginsib.signatureserver.afirmaserver.TransformersTemplatesPath=/opt/signatureserver/transformersTemplates
+pluginsib.signatureserver.afirmaserver.endpoint=https:/servidorafirma/afirmaws/services/DSSAfirmaSign
+pluginsib.signatureserver.afirmaserver.endpoint_upgrade=https://servidorafirma/afirmaws/services/DSSAfirmaVerify
+pluginsib.signatureserver.afirmaserver.authorization.username=XXXX
+pluginsib.signatureserver.afirmaserver.authorization.password=XXXX
 
-plugins.signatureserver.afirmalibs.class=org.fundaciobit.plugins.signatureserver.afirmalibs.AfirmaLibsSignatureServerPlugin
-plugins.signatureserver.afirmalibs.defaultAliasCertificate=segellfnmt
-plugins.signatureserver.afirmalibs.base_dir=/opt/signatureserver
-plugins.signatureserver.afirmalibs.debug=true
+pluginsib.signatureserver.afirmalibs.class=org.fundaciobit.pluginsib.signatureserver.afirmalibs.AfirmaLibsSignatureServerPlugin
+pluginsib.signatureserver.afirmalibs.defaultAliasCertificate=segellfnmt
+pluginsib.signatureserver.afirmalibs.base_dir=/opt/signatureserver
+pluginsib.signatureserver.afirmalibs.debug=true

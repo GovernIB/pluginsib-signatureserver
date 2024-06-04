@@ -1,4 +1,4 @@
-# Classe org.fundaciobit.plugins.signatureserver.afirmaserver.AfirmaServerSignatureServerPlugin
+# Classe org.fundaciobit.pluginsib.signatureserver.afirmaserver.AfirmaServerSignatureServerPlugin
 
 # Obligatiori. Aplicació definida dins "Gestión de Aplicaciones" de @firma federat, on
 # en l'apartat 'Parametros de la aplicación' en el camp "Política de TimeStamp" té
@@ -23,8 +23,8 @@ plugins.signatureserver.afirmaserver.endpoint=http://localhost:9090/afirmaws/ser
 plugins.signatureserver.afirmaserver.endpoint_upgrade=http://localhost:9090/afirmaws/services/DSSAfirmaVerify
 
 # opcional (Default 60000)
-es.caib.portafib.plugins.signatureserver.afirmaserver.connectTimeout=300000
-es.caib.portafib.plugins.signatureserver.afirmaserver.readTimeout=300000 
+es.caib.portafib.pluginsib.signatureserver.afirmaserver.connectTimeout=300000
+es.caib.portafib.pluginsib.signatureserver.afirmaserver.readTimeout=300000 
 
 
 # USERNAME-PASSWORD Token
