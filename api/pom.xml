@@ -13,17 +13,10 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.fundaciobit.pluginsib.core.v3</groupId>
-      <artifactId>pluginsib-core</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <scope>provided</scope>
     </dependency>
 
   </dependencies>
-
 
 </project>
