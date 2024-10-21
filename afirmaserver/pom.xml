@@ -179,6 +179,11 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <artifactId>cxf-core</artifactId>
+            <groupId>org.apache.cxf</groupId>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 

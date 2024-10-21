@@ -147,8 +147,10 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     private boolean initalized = false;
 
     private synchronized void init() {
+        // Es perd la configuració del Path al XML_Transformers 
+        // https://github.com/GovernIB/pluginsib-signatureserver/issues/5
+        initTransformersFacade();
         if (!initalized) {
-            initTransformersFacade();
             initConfiguration();
             initApiSign();
             initApiUpgrade();
@@ -205,7 +207,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
             URL wsdlUrl = new URL(endPoint + "?wsdl"); // getClass().getResource("/wsdl/DSSAfirmaVerify.wsdl");
             org.fundaciobit.pluginsib.signatureserver.afirmaserver.validarfirmaapi.DSSSignatureService service;
-            service= new org.fundaciobit.pluginsib.signatureserver.afirmaserver.validarfirmaapi.DSSSignatureService(
+            service = new org.fundaciobit.pluginsib.signatureserver.afirmaserver.validarfirmaapi.DSSSignatureService(
                     wsdlUrl);
             apiUpgrade = service.getDSSAfirmaVerify();
 
@@ -244,10 +246,15 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
             Properties transfProp = (Properties) FieldUtils.readField(transformersFacade, "transformersProperties",
                     true);
-            transfProp.put("TransformersTemplatesPath", getPropertyRequired(TRANSFORMERSTEMPLATESPATH_PROPERTY));
+
+            if (".".equals(transfProp.get("TransformersTemplatesPath"))) {
+                log.warn("\n\n\n\n  transfProp.get(\"TransformersTemplatesPath\")  => ]"
+                        + transfProp.get("TransformersTemplatesPath") + "[\n\n\n\n");
+                transfProp.put("TransformersTemplatesPath", getPropertyRequired(TRANSFORMERSTEMPLATESPATH_PROPERTY));
+            }
 
         } catch (Exception e) {
-            throw new RuntimeException("Error inicialitzant TransformersFacade", e);
+            throw new RuntimeException("Error inicialitzant TransformersFacade: " + e.getMessage(), e);
         }
     }
 
