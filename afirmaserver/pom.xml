@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
         <artifactId>pluginsib-signatureserver</artifactId>
-        <version>4.0.0-SNAPSHOT</version>
+        <version>4.1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>pluginsib-signatureserver-afirmaserver</artifactId>
@@ -165,13 +165,13 @@
             </exclusions>
             <scope>test</scope>
         </dependency>
-
+        <!--
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
             <scope>test</scope>
         </dependency>
-
+-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
@@ -180,9 +180,41 @@
         </dependency>
 
         <dependency>
-            <artifactId>cxf-core</artifactId>
-            <groupId>org.apache.cxf</groupId>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>javax.activation</artifactId>
+            <version>1.2.0</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-rt</artifactId>
+            <version>2.3.0</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jvnet.staxex</groupId>
+                    <artifactId>stax-ex</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jvnet.mimepull</groupId>
+                    <artifactId>mimepull</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Per l'exclussió de la dependència jaxws-rt-->
+        <dependency>
+            <groupId>org.jvnet.staxex</groupId>
+            <artifactId>stax-ex</artifactId>
+            <version>1.7.8</version>
+        </dependency>
+
+        <!-- Per l'exclussió de la dependència jaxws-rt-->
+        <dependency>
+            <groupId>org.jvnet.mimepull</groupId>
+            <artifactId>mimepull</artifactId>
+            <version>1.7</version>
         </dependency>
 
     </dependencies>

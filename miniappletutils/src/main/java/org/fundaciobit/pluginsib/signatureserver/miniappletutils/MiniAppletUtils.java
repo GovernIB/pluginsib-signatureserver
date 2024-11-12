@@ -1,6 +1,5 @@
 package org.fundaciobit.pluginsib.signatureserver.miniappletutils;
 
-
 import org.fundaciobit.pluginsib.core.v3.utils.Base64;
 import org.fundaciobit.pluginsib.core.v3.utils.FileUtils;
 import org.fundaciobit.pluginsib.signature.api.CommonInfoSignature;
@@ -9,6 +8,7 @@ import org.fundaciobit.pluginsib.signature.api.ITimeStampGenerator;
 import org.fundaciobit.pluginsib.signature.api.PdfRubricRectangle;
 import org.fundaciobit.pluginsib.signature.api.PdfVisibleSignature;
 import org.fundaciobit.pluginsib.signature.api.PolicyInfoSignature;
+import org.fundaciobit.pluginsib.utils.signature.SignatureCommonUtils;
 import org.jboss.logging.Logger;
 
 import es.gob.afirma.keystores.filters.CertFilterManager;
@@ -28,26 +28,22 @@ public class MiniAppletUtils {
 
     protected final static Logger log = Logger.getLogger(MiniAppletUtils.class.getName());
 
-    public static MiniAppletSignInfo convertRemoteSignature(
-            CommonInfoSignature commonInfoSignature, FileInfoSignature fileInfo,
-            String timeStampURL, String rubricURL) throws Exception {
+    public static MiniAppletSignInfo convertRemoteSignature(CommonInfoSignature commonInfoSignature,
+            FileInfoSignature fileInfo, String timeStampURL, String rubricURL) throws Exception {
         final boolean isLocalSignature = false;
-        return convert(commonInfoSignature, fileInfo, timeStampURL, null, rubricURL,
-                isLocalSignature);
+        return convert(commonInfoSignature, fileInfo, timeStampURL, null, rubricURL, isLocalSignature);
 
     }
 
-    public static MiniAppletSignInfo convertLocalSignature(
-            CommonInfoSignature commonInfoSignature, FileInfoSignature fileInfo,
-            String timeStampURL, X509Certificate certificate) throws Exception {
+    public static MiniAppletSignInfo convertLocalSignature(CommonInfoSignature commonInfoSignature,
+            FileInfoSignature fileInfo, String timeStampURL, X509Certificate certificate) throws Exception {
         final boolean isLocalSignature = true;
-        return convert(commonInfoSignature, fileInfo, timeStampURL, certificate, null,
-                isLocalSignature);
+        return convert(commonInfoSignature, fileInfo, timeStampURL, certificate, null, isLocalSignature);
     }
 
-    private static MiniAppletSignInfo convert(CommonInfoSignature commonInfoSignature,
-                                              FileInfoSignature fileInfo, String timeStampURL, X509Certificate certificate,
-                                              String rubricURL, boolean isLocalSignature) throws Exception {
+    private static MiniAppletSignInfo convert(CommonInfoSignature commonInfoSignature, FileInfoSignature fileInfo,
+            String timeStampURL, X509Certificate certificate, String rubricURL, boolean isLocalSignature)
+            throws Exception {
         MiniAppletSignInfo info;
 
         Properties miniAppletProperties = new Properties();
@@ -99,33 +95,27 @@ public class MiniAppletUtils {
         // SEGELL DE TEMPS
         convertTimeStamp(fileInfo, timeStampURL, isLocalSignature, miniAppletProperties);
 
-
         byte[] pdf = FileUtils.readFromFile(fileInfo.getFileToSign());
 
-        info = new MiniAppletSignInfo(pdf, tipusFirma, algorisme, certificate,
-                miniAppletProperties);
+        info = new MiniAppletSignInfo(pdf, tipusFirma, algorisme, certificate, miniAppletProperties);
 
         return info;
     }
 
-
-    public static void convertPAdESPdfVisibleLocalSignature(FileInfoSignature fileInfo,
-                                                            X509Certificate certificate, Properties miniAppletProperties) throws Exception {
+    public static void convertPAdESPdfVisibleLocalSignature(FileInfoSignature fileInfo, X509Certificate certificate,
+            Properties miniAppletProperties) throws Exception {
 
         convertPAdESPdfVisible2(fileInfo, certificate, null, true, miniAppletProperties);
     }
 
-
-    public static void convertPAdESPdfVisibleRemoteSignature(FileInfoSignature fileInfo,
-                                                             String rubricURL, Properties miniAppletProperties) throws Exception {
+    public static void convertPAdESPdfVisibleRemoteSignature(FileInfoSignature fileInfo, String rubricURL,
+            Properties miniAppletProperties) throws Exception {
 
         convertPAdESPdfVisible2(fileInfo, null, rubricURL, false, miniAppletProperties);
     }
 
-
-    private static void convertPAdESPdfVisible2(FileInfoSignature fileInfo,
-                                                X509Certificate certificate, String rubricURL, boolean isLocalSignature,
-                                                Properties miniAppletProperties) throws Exception {
+    private static void convertPAdESPdfVisible2(FileInfoSignature fileInfo, X509Certificate certificate,
+            String rubricURL, boolean isLocalSignature, Properties miniAppletProperties) throws Exception {
         if (fileInfo.getSignaturesTableLocation() != FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT) {
 
             PdfVisibleSignature pdfSign = fileInfo.getPdfVisibleSignature();
@@ -135,29 +125,22 @@ public class MiniAppletUtils {
 
             PdfRubricRectangle rr = pdfSign.getPdfRubricRectangle();
 
-            miniAppletProperties.setProperty(
-                    MiniAppletConstants.PROPERTY_SIGNATUREPOSITIONONPAGELOWERLEFTX,
+            miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGNATUREPOSITIONONPAGELOWERLEFTX,
                     String.valueOf((int) rr.getLowerLeftX()));
-            miniAppletProperties.setProperty(
-                    MiniAppletConstants.PROPERTY_SIGNATUREPOSITIONONPAGEUPPERRIGHTX,
+            miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGNATUREPOSITIONONPAGEUPPERRIGHTX,
                     String.valueOf((int) rr.getUpperRightX()));
-            miniAppletProperties.setProperty(
-                    MiniAppletConstants.PROPERTY_SIGNATUREPOSITIONONPAGELOWERLEFTY,
+            miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGNATUREPOSITIONONPAGELOWERLEFTY,
                     String.valueOf((int) rr.getLowerLeftY()));
-            miniAppletProperties.setProperty(
-                    MiniAppletConstants.PROPERTY_SIGNATUREPOSITIONONPAGEUPPERRIGHTY,
+            miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGNATUREPOSITIONONPAGEUPPERRIGHTY,
                     String.valueOf((int) rr.getUpperRightY()));
 
             if (isLocalSignature) {
                 byte[] signatureRubricImage;
-                signatureRubricImage = pdfSign.getRubricGenerator().genenerateRubricImage(
-                        certificate, new Date());
-                miniAppletProperties.setProperty(
-                        MiniAppletConstants.PROPERTY_SIGNATURE_RUBRIC_IMAGE,
+                signatureRubricImage = pdfSign.getRubricGenerator().genenerateRubricImage(certificate, new Date());
+                miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGNATURE_RUBRIC_IMAGE,
                         Base64.encode(signatureRubricImage));
             } else {
-                miniAppletProperties.setProperty(
-                        MiniAppletConstants.PROPERTY_SIGNATURE_RUBRIC_IMAGE, rubricURL);
+                miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGNATURE_RUBRIC_IMAGE, rubricURL);
             }
         }
     }
@@ -206,7 +189,6 @@ public class MiniAppletUtils {
         return algorisme;
     }
 
-
     public static void convertCAdES(FileInfoSignature fileInfo, Properties miniAppletProperties) {
 
         // En principi no s'ha de fer res
@@ -233,7 +215,7 @@ public class MiniAppletUtils {
      */
     public static final String SIGN_FORMAT_XADES_ENVELOPING = "XAdES Enveloping"; //$NON-NLS-1$
 
-    public static void convertXAdES(FileInfoSignature fileInfo, Properties miniAppletProperties) {
+    public static void convertXAdES(FileInfoSignature fileInfo, Properties miniAppletProperties) throws Exception {
         // En xades no te sentit el camp 'mode'
         miniAppletProperties.remove(MiniAppletConstants.PROPERTY_SIGN_MODE);
 
@@ -256,27 +238,18 @@ public class MiniAppletUtils {
 
             miniAppletProperties.setProperty("format", SIGN_FORMAT_XADES_ENVELOPING);
 
-        } else if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_DETACHED) {
-            /*
-             * explicit La firma resultante no incluirá los datos firmados. Si no se
-             * indica el parámetro mode se configura automáticamente este
-             * comportamiento.
-             */
-            // les Dades originals NO s'inclouen al xml
+        } else if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED) {
 
-
-            // genera un Firma Xades Detached Implicit. Si volem una Firma Xades Detached Explicit
-            // llavors hem de descomentar la següent linia
-            //miniAppletProperties.setProperty("mode", "explicit");
+            // IMPORTANT: SIGN_FORMAT_XADES_DETACHED realment és Internally Detached !!!!!!
 
             miniAppletProperties.setProperty("format", SIGN_FORMAT_XADES_DETACHED);
         } else {
-            log.warn("convertCommon:: No es suporta el mode de firma ]" + fileInfo.getSignMode() + "[");
+            throw new Exception("convertXAdES:: No es suporta el mode de firma ]"
+                    + SignatureCommonUtils.signModeToString(fileInfo.getSignMode()) + "[");
         }
 
         final String mime = fileInfo.getMimeType();
-        if (mime != null && !mime.equals("application/octet-stream")
-                && !mime.equals("application/binary")
+        if (mime != null && !mime.equals("application/octet-stream") && !mime.equals("application/binary")
                 && !mime.equals("unknown/unknown")) {
             miniAppletProperties.setProperty("mimeType", mime);
 
@@ -290,20 +263,17 @@ public class MiniAppletUtils {
         miniAppletProperties.setProperty("headless", "true");
     }
 
-    public static void convertPAdES(FileInfoSignature fileInfo,
-                                    Properties miniAppletProperties, PolicyInfoSignature policy) {
+    public static void convertPAdES(FileInfoSignature fileInfo, Properties miniAppletProperties,
+            PolicyInfoSignature policy) {
 
         // POLITICA DE FIRMA PADES
         if (policy == null || policy.getPolicyIdentifier() == null
                 || policy.getPolicyIdentifier().trim().length() == 0) {
-            miniAppletProperties.setProperty("signatureSubFilter",
-                    MiniAppletConstants.PADES_SUBFILTER_BES);
+            miniAppletProperties.setProperty("signatureSubFilter", MiniAppletConstants.PADES_SUBFILTER_BES);
             //MiniAppletConstants.PADES_SUBFILTER_BASIC
         } else {
-            miniAppletProperties.setProperty("signatureSubFilter",
-                    MiniAppletConstants.PADES_SUBFILTER_BES);
+            miniAppletProperties.setProperty("signatureSubFilter", MiniAppletConstants.PADES_SUBFILTER_BES);
         }
-
 
         // Sign reason
         if (fileInfo.getReason() != null) {
@@ -316,15 +286,13 @@ public class MiniAppletUtils {
     }
 
     public static PolicyInfoSignature convertPolicy(FileInfoSignature fileInfoSignature,
-                                                    Properties miniAppletProperties) {
+            Properties miniAppletProperties) {
 
         PolicyInfoSignature policy = fileInfoSignature.getPolicyInfoSignature();
         return convertPolicy(policy, miniAppletProperties);
     }
 
-
-    public static PolicyInfoSignature convertPolicy(PolicyInfoSignature policy,
-                                                    Properties miniAppletProperties) {
+    public static PolicyInfoSignature convertPolicy(PolicyInfoSignature policy, Properties miniAppletProperties) {
 
         if (policy != null && policy.getPolicyIdentifier() != null
                 && policy.getPolicyIdentifier().trim().length() != 0) {
@@ -347,8 +315,8 @@ public class MiniAppletUtils {
         return policy;
     }
 
-    public static void convertTimeStamp(FileInfoSignature fileInfo, String timeStampURL,
-                                        boolean isLocalSignature, Properties miniAppletProperties) {
+    public static void convertTimeStamp(FileInfoSignature fileInfo, String timeStampURL, boolean isLocalSignature,
+            Properties miniAppletProperties) {
         // Segell de Temps (Segellat de temps)
         if (timeStampURL != null) {
 
@@ -357,28 +325,25 @@ public class MiniAppletUtils {
                 log.debug("convert::tsaURL=" + timeStampURL);
             }
 
-
             miniAppletProperties.setProperty("tsaURL", timeStampURL);
 
             ITimeStampGenerator timestampGenerator = fileInfo.getTimeStampGenerator();
 
             if (timestampGenerator != null) {
 
-                miniAppletProperties
-                        .setProperty("tsaPolicy", timestampGenerator.getTimeStampPolicyOID());
+                miniAppletProperties.setProperty("tsaPolicy", timestampGenerator.getTimeStampPolicyOID());
 
                 final String CATCERT_REQUIRECERT = "" + Boolean.TRUE;
                 miniAppletProperties.setProperty("tsaRequireCert", CATCERT_REQUIRECERT);
 
-                miniAppletProperties.setProperty("tsaHashAlgorithm",
-                        timestampGenerator.getTimeStampHashAlgorithm());
+                miniAppletProperties.setProperty("tsaHashAlgorithm", timestampGenerator.getTimeStampHashAlgorithm());
                 // Sello de tiempo a nivel de firma.
                 miniAppletProperties.setProperty("tsType", "" + MiniAppletConstants.TS_SIGN);
             }
 
         }
     }
-    
+
     public static boolean matchFilter(X509Certificate certificate, String filter) throws IOException {
         if (filter == null || filter.trim().isEmpty()) {
             return true;
@@ -402,5 +367,4 @@ public class MiniAppletUtils {
         return false;
     }
 
-    
 }

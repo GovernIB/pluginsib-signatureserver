@@ -4,14 +4,15 @@ import org.fundaciobit.pluginsib.signature.api.CommonInfoSignature;
 import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
 import org.fundaciobit.pluginsib.signature.api.SignaturesSet;
 import org.fundaciobit.pluginsib.signature.api.constants.SignatureTypeFormEnumForUpgrade;
-import org.fundaciobit.pluginsib.signatureserver.api.ISignatureServerPlugin;
 import org.fundaciobit.pluginsib.signatureserver.afirmaserver.AfirmaServerSignatureServerPlugin;
+import org.fundaciobit.pluginsib.signatureserver.api.ISignatureServerPlugin;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
@@ -32,6 +33,8 @@ public class AfirmaServerSignatureServerPluginIT {
 
     private static ISignatureServerPlugin plugin;
 
+    public static String RESULTS_PATH = "./results";
+
     public static void main(String[] args) {
 
         try {
@@ -40,26 +43,32 @@ public class AfirmaServerSignatureServerPluginIT {
 
             AfirmaServerSignatureServerPluginIT tester = new AfirmaServerSignatureServerPluginIT();
 
-            
-            //tester.testSignBigPdf();
+            /*
+            tester.testSignBigPdf();
             
             tester.testSignPdf();
+            
+            tester.testSignPdfSignat();
+            */
 
-            //tester.testSignPdfSignat();
+            
+            tester.testSignXAdES_InternallyDetached();
+            
+            
+            tester.testSignXAdES_Attached_Enveloping();
+            
+            tester.testSignXAdES_Attached_Enveloped();
 
-            //tester.testSignXAdES_InternallyDetached();
-
-            //tester.testSignXAdES_Attached_Enveloping();
-
-            //tester.testSignXAdES_Attached_Enveloped_No_Suportat();
-
-            //tester.testSignXAdES_Detached_No_Suportat();
-
+            tester.testSignXAdES_Detached_No_Suportat();
+            
+           
             //tester.testSignCAdES_InternallyDetached_No_Suportat();
 
-            //tester.testSignCAdES_Attached_Enveloping();
+            
 
             //tester.testSignCAdES_Attached_Enveloped_No_Suportat();
+            
+            //tester.testSignCAdES_Attached_Enveloping();
 
             //tester.testSignCAdES_Detached();
 
@@ -92,19 +101,18 @@ public class AfirmaServerSignatureServerPluginIT {
     // =================================
     // ============  PDF ===============
     // =================================
-    
+
     @Test
     public void testSignBigPdf() throws URISyntaxException {
 
         long start = System.currentTimeMillis();
-        
+
         try {
-          signPdf("/testfiles/BIG_29Mb.pdf", "testSignBigPdf");
+            signPdf("/testfiles/BIG_19Mb.pdf", "testSignBigPdf");
         } finally {
             System.err.println("Temps total: " + (System.currentTimeMillis() - start));
         }
     }
-    
 
     @Test
     public void testSignPdf() throws URISyntaxException {
@@ -120,14 +128,59 @@ public class AfirmaServerSignatureServerPluginIT {
 
     protected void signPdf(String fitxerASignar, String resultName) throws URISyntaxException {
         File file = getFile(fitxerASignar);
-        SignaturesSet signaturesSet = getSignaturesSet(getFileInfoSignature(file, FileInfoSignature.PDF_MIME_TYPE,
-                FileInfoSignature.SIGN_TYPE_PADES, FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED));
+        String signType = FileInfoSignature.SIGN_TYPE_PADES;
+        int signMode = FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED;
+        SignaturesSet signaturesSet = getSignaturesSet(
+                getFileInfoSignature(file, FileInfoSignature.PDF_MIME_TYPE, signType, signMode));
         SignaturesSet set = plugin.signDocuments(signaturesSet, null, null);
         validarStatus(set);
-        String rename = "result_" + resultName + "_" + System.currentTimeMillis() + ".pdf";
+        File rename = new File("result_" + resultName + "_" + System.currentTimeMillis() + ".pdf");
         File signedData = set.getFileInfoSignatureArray()[0].getStatusSignature().getSignedData();
-        Assert.assertTrue(signedData.renameTo(new File(rename)));
+        Assert.assertTrue(signedData.renameTo(rename));
+
+        saveResults(resultName, file, rename, signType, signMode);
+
         System.out.println("Fitxer resultat: " + rename);
+    }
+
+    public void saveResults(String name, File fileOriginal, File fileSigned, String signType, int signMode) {
+        try {
+            File resultsDir = new File(RESULTS_PATH);
+            if (!resultsDir.exists()) {
+                resultsDir.mkdirs();
+            }
+            Properties props = new Properties();
+            props.setProperty("name", name);
+            // Copiam el fitxer original al directori de resultats
+            {
+                File fileOriginalCopy = new File(resultsDir, name + "_" + fileOriginal.getName());
+                if (fileOriginalCopy.exists()) {
+                    fileOriginalCopy.delete();
+                }
+
+                Files.copy(fileOriginal.toPath(), fileOriginalCopy.toPath());
+                props.setProperty("fileOriginal", fileOriginalCopy.getName());
+            }
+            // Copiam el fitxer signat al directori de resultats
+            {
+                File fileSignedCopy = new File(resultsDir, name + "_" + fileSigned.getName());
+                if (fileSignedCopy.exists()) {
+                    fileSignedCopy.delete();
+                }
+                Files.copy(fileSigned.toPath(), fileSignedCopy.toPath());
+                props.setProperty("fileSigned", fileSignedCopy.getName());
+            }
+            props.setProperty("signType", signType);
+            props.setProperty("signMode", String.valueOf(signMode));
+
+            // Guardam les propietats dins d'un fitxer "name".properties
+            File propsFile = new File(resultsDir, name + ".properties");
+            FileOutputStream fis = new FileOutputStream(propsFile);
+            props.store(fis, "Resultats de la signatura ");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // =================================
@@ -145,14 +198,8 @@ public class AfirmaServerSignatureServerPluginIT {
     }
 
     @Test
-    public void testSignXAdES_Attached_Enveloped_No_Suportat() throws Exception {
-        try {
-            signXades(FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED, "testSignXAdES_Attached_Enveloped_No_Suportat");
-            throw new Exception("S'esperava un error de mode no suportat i no s'ha llançat cap excepció.");
-        } catch (java.lang.AssertionError e) {
-            // OK
-            System.out.println("testSignXAdES_Attached_Enveloped_No_Suportat(): OK");
-        }
+    public void testSignXAdES_Attached_Enveloped() throws Exception {
+        signXades(FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED, "testSignXAdES_Attached_Enveloped");
     }
 
     @Test
@@ -170,15 +217,19 @@ public class AfirmaServerSignatureServerPluginIT {
 
         File file = getFile("/testfiles/sample.xml");
 
+        final String signType = FileInfoSignature.SIGN_TYPE_XADES;
+
         SignaturesSet signaturesSet = getSignaturesSet(
-                getFileInfoSignature(file, "application/xml", FileInfoSignature.SIGN_TYPE_XADES, signMode));
+                getFileInfoSignature(file, "application/xml", signType, signMode));
         SignaturesSet set = plugin.signDocuments(signaturesSet, null, null);
         validarStatus(set);
 
         File signedData = set.getFileInfoSignatureArray()[0].getStatusSignature().getSignedData();
-        String rename = "result_" + resultName + "_" + System.currentTimeMillis() + ".xsig";
+        File rename = new File("result_" + resultName + "_" + System.currentTimeMillis() + ".xsig");
         System.out.println(" resultat: " + rename);
-        Assert.assertTrue(signedData.renameTo(new File(rename)));
+        Assert.assertTrue(signedData.renameTo(rename));
+
+        saveResults(resultName, file, rename, signType, signMode);
     }
 
     // =================================
@@ -223,15 +274,18 @@ public class AfirmaServerSignatureServerPluginIT {
 
         File file = getFile("/testfiles/binari.bin");
 
+        final String signType = FileInfoSignature.SIGN_TYPE_CADES;
         SignaturesSet signaturesSet = getSignaturesSet(
-                getFileInfoSignature(file, "application/xml", FileInfoSignature.SIGN_TYPE_CADES, signMode));
+                getFileInfoSignature(file, "application/xml", signType, signMode));
         SignaturesSet set = plugin.signDocuments(signaturesSet, null, null);
         validarStatus(set);
 
         File signedData = set.getFileInfoSignatureArray()[0].getStatusSignature().getSignedData();
-        String rename = "result_" + resultName + "_" + System.currentTimeMillis() + ".csig";
+        File rename = new File("result_" + resultName + "_" + System.currentTimeMillis() + ".csig");
         System.out.println(" resultat: " + rename);
-        Assert.assertTrue(signedData.renameTo(new File(rename)));
+        Assert.assertTrue(signedData.renameTo(rename));
+        
+        saveResults(resultName, file, rename, signType, signMode);
     }
 
     // =================================
@@ -290,7 +344,7 @@ public class AfirmaServerSignatureServerPluginIT {
 
     private FileInfoSignature getFileInfoSignature(File file, String mime, String signType, int signMode) {
 
-        boolean userRequiresTimestamp = true; 
+        boolean userRequiresTimestamp = true;
         return new FileInfoSignature("1", file, null, mime, file.getName(), null, null, null, 1, "ca",
                 FileInfoSignature.SIGN_OPERATION_SIGN, signType, FileInfoSignature.SIGN_ALGORITHM_SHA256, signMode,
                 FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT, null, null, null, userRequiresTimestamp, null, null,

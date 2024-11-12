@@ -17,7 +17,6 @@ import es.gob.afirma.utils.DSSConstants.XmlSignatureMode;
 import es.gob.afirma.utils.GeneralConstants;
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
-import net.java.xades.security.xml.XMLSignatureElement;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.fundaciobit.pluginsib.signature.api.CommonInfoSignature;
 import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
@@ -35,14 +34,10 @@ import org.fundaciobit.pluginsib.signatureserver.miniappletutils.MIMEInputStream
 import org.fundaciobit.pluginsib.signatureserver.miniappletutils.SMIMEInputStream;
 import org.fundaciobit.pluginsib.utils.cxf.CXFUtils;
 import org.fundaciobit.pluginsib.utils.cxf.ClientHandler;
+import org.fundaciobit.pluginsib.utils.signature.SignatureCommonUtils;
+import org.fundaciobit.pluginsib.utils.signature.SignatureConstants;
 import org.fundaciobit.pluginsib.utils.templateengine.TemplateEngine;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
-import javax.xml.crypto.MarshalException;
-import javax.xml.crypto.dsig.Reference;
-import javax.xml.crypto.dsig.XMLSignature;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.ws.BindingProvider;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -65,21 +60,25 @@ import java.util.concurrent.Semaphore;
  */
 public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPlugin {
 
-    /** La firma està continguda dins del document: PADES, ODT, OOXML */
+    /** La firma està continguda dins del document: PADES, ODT, OOXML 
     public static final String SIGNFORMAT_IMPLICIT_ENVELOPED_ATTACHED = "implicit_enveloped/attached";
+    */
 
-    /** La firma conté al document: Xades ATTACHED */
+    /** La firma conté al document: Xades ATTACHED 
     public static final String SIGNFORMAT_IMPLICIT_ENVELOPING_ATTACHED = "implicit_enveloping/attached";
+    */
 
     /**
      * El documetn està forà de la firma: xades detached i cades detached
-     */
+     *
     public static final String SIGNFORMAT_EXPLICIT_DETACHED = "explicit/detached";
+    */
 
     /**
      * Cas específic de Xades externally detached
-     */
+     *
     public static final String SIGNFORMAT_EXPLICIT_EXTERNALLY_DETACHED = "explicit/externally_detached";
+    */
 
     private static final Map<String, String> hashAlgorithmMap = new HashMap<>();
 
@@ -247,9 +246,12 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
             Properties transfProp = (Properties) FieldUtils.readField(transformersFacade, "transformersProperties",
                     true);
 
-            if (".".equals(transfProp.get("TransformersTemplatesPath"))) {
-                log.warn("\n\n\n\n  transfProp.get(\"TransformersTemplatesPath\")  => ]"
-                        + transfProp.get("TransformersTemplatesPath") + "[\n\n\n\n");
+            String transformersTemplatesPath = (String) transfProp.get("TransformersTemplatesPath");
+            if (".".equals(transformersTemplatesPath) || transformersTemplatesPath == null
+                    || transformersTemplatesPath.trim().length() == 0) {
+
+                log.info("\nReassignant TransformersTemplatesPath. Valor actual: ]" + transformersTemplatesPath
+                        + "[\n");
                 transfProp.put("TransformersTemplatesPath", getPropertyRequired(TRANSFORMERSTEMPLATESPATH_PROPERTY));
             }
 
@@ -370,14 +372,12 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
     @Override
     public int[] getSupportedSignatureModes(String signType) {
-
         if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
             return new int[] { FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING,
-                    FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED };
+                    FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED, FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED };
         } else {
             return super.getSupportedSignatureModes(signType);
         }
-
     }
 
     @Override
@@ -521,8 +521,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
                     // Veure https://ec.europa.eu/digital-building-blocks/DSS/webapp-demo/doc/dss-documentation.html#Packaging
                     // veure https://ec.europa.eu/digital-building-blocks/DSS/webapp-demo/doc/dss-documentation.html#SignatureProfileGuide
 
-                    if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_EXPLICIT
-                            || fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED) {
+                    if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED) {
                         // Afirma no suporta DETACHED, el que si suporta es Internally Detached
                         /* 12/04/2023
                          Buenos días,
@@ -543,9 +542,10 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
                              "urn:afirma:dss:1.0:profile:XSS:XMLSignatureMode:DetachedMode".
                          */
                         xmlSignMode = XmlSignatureMode.DETACHED;
-                    } else if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_IMPLICIT
-                            || fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING) {
+                    } else if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING) {
                         xmlSignMode = XmlSignatureMode.ENVELOPING;
+                    } else if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED) {
+                        xmlSignMode = XmlSignatureMode.ENVELOPED;
                     } else {
                         String msg = getTraduccio("modefirma.desconegut", locale, fileInfo.getSignMode(),
                                 this.getName(locale));
@@ -1205,12 +1205,15 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
             // NOTA: Si aquí posam  UTF_8 llavors en el JBOSS es produeix:
             // java.lang.Exception: Error en los parámetros de entrada.
-            String typeOfESignature = getXAdESFormat(signature);
+            final boolean isInput = true;
+            int typeOfESignature = SignatureCommonUtils.getXAdESMode(signature, isInput);
 
-            if (SIGNFORMAT_IMPLICIT_ENVELOPING_ATTACHED.equals(typeOfESignature)) {
+            
+            if (SignatureConstants.SIGN_MODE_ATTACHED_ENVELOPING == typeOfESignature) {
                 inputParameters.put("dss:SignatureObject", new String(signature, StandardCharsets.UTF_8));
-            } else if ("XAdES Enveloped".equals(typeOfESignature) || "XAdES Detached".equals(typeOfESignature)
-                    || "explicit/detached".equals(typeOfESignature)) {
+            } else if (SignatureConstants.SIGN_MODE_ATTACHED_ENVELOPED == typeOfESignature 
+                    || SignatureConstants.SIGN_MODE_DETACHED == typeOfESignature
+                    || SignatureConstants.SIGN_MODE_EXTERNALLY_DETACHED == typeOfESignature) {
                 String idSignaturePtr = String.valueOf(Math.random() * 9999.0);
                 inputParameters.put("dss:SignatureObject/dss:SignaturePtr@WhichDocument", idSignaturePtr);
                 inputParameters.put("dss:InputDocuments/dss:Document@ID", idSignaturePtr);
@@ -1225,6 +1228,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     /**
      * AQUEST MÈTODE ESTA DUPLICAT AL PLUGIN-INTEGR@
      */
+    /*
     public static String getXAdESFormat(byte[] signature) throws Exception {
 
         DocumentBuilderFactory dBFactory = DocumentBuilderFactory.newInstance();
@@ -1263,6 +1267,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         // "XAdES Detached"
         return SIGNFORMAT_EXPLICIT_DETACHED;
     }
+    */
 
     @Override
     public byte[] generateTimeStamp(String signaturesSetID, int signatureIndex, byte[] inputRequest) throws Exception {

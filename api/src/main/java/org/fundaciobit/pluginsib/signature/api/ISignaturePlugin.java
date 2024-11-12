@@ -4,13 +4,14 @@ import java.util.List;
 import java.util.Locale;
 
 import org.fundaciobit.pluginsib.core.v3.IPluginIB;
+import org.fundaciobit.pluginsib.utils.signature.SignatureConstants;
 
 /**
  * 
  * @author anadal
  *
  */
-public interface ISignaturePlugin extends IPluginIB {
+public interface ISignaturePlugin extends IPluginIB, SignatureConstants {
 
 
   /**
@@ -22,22 +23,22 @@ public interface ISignaturePlugin extends IPluginIB {
   public String getName(Locale locale);
   
   /**
-   * @return Le soperacions de firma suportades segons el tipus de firma
+   * @return Les operacions de firma suportades segons el tipus de firma
    * @param signType Tipus de Firma
-   * @see FileInfoSignature#SIGNATURE_OPERATION_SIGN = FIRMA
-   * @see FileInfoSignature#SIGNATURE_OPERATION_COSIGN = COFIRMA
-   * @see FileInfoSignature#SIGNATURE_OPERATION_COUNTERSIGN = CONTRAFIRMA
+   * @see SignatureConstants#SIGNATURE_OPERATION_SIGN = FIRMA
+   * @see SignatureConstants#SIGNATURE_OPERATION_COSIGN = COFIRMA
+   * @see SignatureConstants#SIGNATURE_OPERATION_COUNTERSIGN = CONTRAFIRMA
    */
   public int[] getSupportedOperationsBySignType(String signType);
 
   /**
    * @return Els tipus de firma suportats. Actualment només es suporta PAdES.
-   * @see FileInfoSignature#SIGN_TYPE_PADES = "PAdES";
-   * @see FileInfoSignature#SIGN_TYPE_XADES = "XAdES";
-   * @see FileInfoSignature#SIGN_TYPE_CADES = "CAdES";
-   * @see FileInfoSignature#SIGN_TYPE_FACTURAE = "FacturaE";
-   * @see FileInfoSignature#SIGN_TYPE_OOXML = "OOXML";
-   * @see FileInfoSignature#SIGN_TYPE_ODF = "ODF";
+   * @see SignatureConstants#SIGNTYPE_PADES = "PAdES";
+   * @see SignatureConstants#SIGNTYPE_XADES = "XAdES";
+   * @see SignatureConstants#SIGNTYPE_CADES = "CAdES";
+   * @see SignatureConstants#SIGNTYPE_FACTURAE = "FacturaE";
+   * @see SignatureConstants#SIGNTYPE_OOXML = "OOXML";
+   * @see SignatureConstants#SIGNTYPE_ODF = "ODF";
    */
   public String[] getSupportedSignatureTypes();
 
@@ -46,10 +47,10 @@ public interface ISignaturePlugin extends IPluginIB {
    *          Tipus de Firma
    * @return Retorna els algorismes suportats segons els tipus de firma passat
    *         per paràmetre
-   *  @see FileInfoSignature#SIGN_ALGORITHM_SHA1
-   *  @see FileInfoSignature#SIGN_ALGORITHM_SHA256
-   *  @see FileInfoSignature#SIGN_ALGORITHM_SHA384
-   *  @see FileInfoSignature#SIGN_ALGORITHM_SHA512        
+   *  @see SignatureConstants#SIGN_ALGORITHM_SHA1
+   *  @see SignatureConstants#SIGN_ALGORITHM_SHA256
+   *  @see SignatureConstants#SIGN_ALGORITHM_SHA384
+   *  @see SignatureConstants#SIGN_ALGORITHM_SHA512        
    */
   public String[] getSupportedSignatureAlgorithms(String signType);
   
@@ -59,12 +60,14 @@ public interface ISignaturePlugin extends IPluginIB {
    *          Tipus de Firma
    * @return Retorna els modes de firma  suportats segons els tipus de firma passat
    *         per paràmetre
-   * @see FileInfoSignature#SIGN_MODE_ATTACHED_ENVELOPED
-   * @see FileInfoSignature#SIGN_MODE_ATTACHED_ENVELOPING
-   * @see FileInfoSignature#SIGN_MODE_DETACHED
-   * @see FileInfoSignature#SIGN_MODE_INTERNALLY_DETACHED
+   * @see SignatureConstants#SIGN_MODE_ATTACHED_ENVELOPED
+   * @see SignatureConstants#SIGN_MODE_ATTACHED_ENVELOPING
+   * @see SignatureConstants#SIGN_MODE_DETACHED
+   * @see SignatureConstants#SIGN_MODE_INTERNALLY_DETACHED
+   * @see SignatureConstants.SIGN_MODE_EXTERNALLY_DETACHED
    */
   public int[] getSupportedSignatureModes(String signType);
+  
   
 
   /**
