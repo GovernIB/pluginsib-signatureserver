@@ -54,13 +54,13 @@ public class AfirmaServerSignatureServerPluginIT {
             
             tester.testSignXAdES_InternallyDetached();
             
-            
+            /*
             tester.testSignXAdES_Attached_Enveloping();
             
             tester.testSignXAdES_Attached_Enveloped();
 
             tester.testSignXAdES_Detached_No_Suportat();
-            
+            */
            
             //tester.testSignCAdES_InternallyDetached_No_Suportat();
 

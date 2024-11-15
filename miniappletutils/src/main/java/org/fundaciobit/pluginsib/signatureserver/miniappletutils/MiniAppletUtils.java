@@ -238,6 +238,10 @@ public class MiniAppletUtils {
 
             miniAppletProperties.setProperty("format", SIGN_FORMAT_XADES_ENVELOPING);
 
+        } else if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED) {
+
+            miniAppletProperties.setProperty("format", SIGN_FORMAT_XADES_ENVELOPED);
+
         } else if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED) {
 
             // IMPORTANT: SIGN_FORMAT_XADES_DETACHED realment és Internally Detached !!!!!!

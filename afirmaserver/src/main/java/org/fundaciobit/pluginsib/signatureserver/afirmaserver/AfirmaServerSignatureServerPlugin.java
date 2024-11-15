@@ -373,8 +373,11 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     @Override
     public int[] getSupportedSignatureModes(String signType) {
         if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
-            return new int[] { FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING,
-                    FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED, FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED };
+            return new int[] {
+                    FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING,
+                    FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED,
+                    FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED
+                  };
         } else {
             return super.getSupportedSignatureModes(signType);
         }

@@ -198,7 +198,9 @@ public abstract class AbstractSignatureServerPlugin extends AbstractPluginProper
                 requiredBarCodeTypes.add(csvStamp.getBarCodeType());
             }
 
-            // 1.4.- Comprovar tipus Operacio,  tipus Firma i Algorisme
+            // 1.4.- Comprovar tipus Operacio,  tipus Firma,  mode de firma i Algorisme
+
+            // 1.4.1- Tipus de Firma 
             if (!tipusFirmaSuportats.contains(signType)) {
                 log.warn("Exclos plugin [" + plugin.getName(new Locale("ca")) + "]::FIRMA[" + i
                         + "]: NO SUPORTA TIPUS FIRMA " + signType);
@@ -207,47 +209,87 @@ public abstract class AbstractSignatureServerPlugin extends AbstractPluginProper
                         + "]: NO SUPORTA TIPUS FIRMA " + signType;
             }
 
-            int[] operationsArray = plugin.getSupportedOperationsBySignType(signType);
-            if (operationsArray == null || operationsArray.length == 0) {
-                // TODO XYZ ZZZ Traduir
-                String msg = "Exclos plugin [" + plugin.getName(new Locale("ca")) + "]::FIRMA[" + i
-                        + "]: NO SUPORTA CAP OPERACIO DE FIRMA PEL TIPUS " + signType;
-                log.warn(msg);
-                return msg;
-            } else {
-
-                Set<Integer> operacionsSuportades;
-                operacionsSuportades = new HashSet<Integer>();
-                for (int oper : operationsArray) {
-                    operacionsSuportades.add(oper);
-                }
-
-                if (!operacionsSuportades.contains(fis.getSignOperation())) {
+            // 1.4.2.- Operacio
+            {
+                int[] operationsArray = plugin.getSupportedOperationsBySignType(signType);
+                if (operationsArray == null || operationsArray.length == 0) {
                     // TODO XYZ ZZZ Traduir
                     String msg = "Exclos plugin [" + plugin.getName(new Locale("ca")) + "]::FIRMA[" + i
-                            + "]: NO SUPORTA L'OPERACIO DE FIRMA " + fis.getSignOperation() + " PEL TIPUS DE FIRMA "
-                            + signType;
+                            + "]: NO SUPORTA CAP OPERACIO DE FIRMA PEL TIPUS " + signType;
                     log.warn(msg);
                     return msg;
+                } else {
+
+                    boolean conteSignOperation = false;
+                    for (int oper : operationsArray) {
+                        if (fis.getSignOperation() == oper) {
+                            conteSignOperation = true;
+                            break;
+                        }
+                    }
+
+                    if (!conteSignOperation) {
+                        // TODO XYZ ZZZ Traduir
+                        String msg = "Exclos plugin [" + plugin.getName(new Locale("ca")) + "]::FIRMA[" + i
+                                + "]: NO SUPORTA L'OPERACIO DE FIRMA " + fis.getSignOperation() + " PEL TIPUS DE FIRMA "
+                                + signType;
+                        log.warn(msg);
+                        return msg;
+                    }
                 }
             }
 
-            final String[] supAlgArray = plugin.getSupportedSignatureAlgorithms(signType);
-            if (supAlgArray == null || supAlgArray.length == 0) {
-                // TODO XYZ ZZZ Traduir
-                String msg = "Exclos plugin [" + plugin.getName(new Locale("ca")) + "]::FIRMA[" + i
-                        + "]: NO SUPORTA CAP ALGORISME DE FIRMA PEL TIPUS " + signType;
-                log.warn(msg);
-                return msg;
-            } else {
-                Set<String> algorismesSuportats;
-                algorismesSuportats = new HashSet<String>(Arrays.asList(supAlgArray));
-                if (!algorismesSuportats.contains(fis.getSignAlgorithm())) {
+            // 1.4.3.- Mode de Firma
+            {
+                int mode = fis.getSignMode();
+
+                int[] supportedModes = plugin.getSupportedSignatureModes(signType);
+
+                if (supportedModes == null || supportedModes.length == 0) {
                     // TODO XYZ ZZZ Traduir
                     String msg = "Exclos plugin [" + plugin.getName(new Locale("ca")) + "]::FIRMA[" + i
-                            + "]: NO SUPORTA ALGORISME DE FIRMA " + signType;
+                            + "]: NO SUPORTA EL MODE DE FIRMA " + mode + " PEL TIPUS DE FIRMA " + signType;
                     log.warn(msg);
                     return msg;
+                } else {
+                    boolean conteMode = false;
+                    for (int sm : supportedModes) {
+                        if (mode == sm) {
+                            conteMode = true;
+                            break;
+                        }
+                    }
+
+                    if (!conteMode) {
+                        // TODO XYZ ZZZ Traduir
+                        String msg = "Exclos plugin [" + plugin.getName(new Locale("ca")) + "]::FIRMA[" + i
+                                + "]: NO SUPORTA EL MODE DE FIRMA " + mode + " PEL TIPUS DE FIRMA " + signType;
+                        log.warn(msg);
+                        return msg;
+                    }
+                }
+
+            }
+
+            // 1.4.4.- Algorisme de Firma
+            {
+                final String[] supAlgArray = plugin.getSupportedSignatureAlgorithms(signType);
+                if (supAlgArray == null || supAlgArray.length == 0) {
+                    // TODO XYZ ZZZ Traduir
+                    String msg = "Exclos plugin [" + plugin.getName(new Locale("ca")) + "]::FIRMA[" + i
+                            + "]: NO SUPORTA CAP ALGORISME DE FIRMA PEL TIPUS " + signType;
+                    log.warn(msg);
+                    return msg;
+                } else {
+                    Set<String> algorismesSuportats;
+                    algorismesSuportats = new HashSet<String>(Arrays.asList(supAlgArray));
+                    if (!algorismesSuportats.contains(fis.getSignAlgorithm())) {
+                        // TODO XYZ ZZZ Traduir
+                        String msg = "Exclos plugin [" + plugin.getName(new Locale("ca")) + "]::FIRMA[" + i
+                                + "]: NO SUPORTA ALGORISME DE FIRMA " + signType;
+                        log.warn(msg);
+                        return msg;
+                    }
                 }
             }
         }
