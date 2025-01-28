@@ -31,7 +31,7 @@ import static org.fundaciobit.pluginsib.signature.api.StatusSignaturesSet.STATUS
  */
 public class AfirmaServerSignatureServerPluginIT {
 
-    private static ISignatureServerPlugin plugin;
+    protected static ISignatureServerPlugin plugin;
 
     public static String RESULTS_PATH = "./results";
 
@@ -51,10 +51,10 @@ public class AfirmaServerSignatureServerPluginIT {
             tester.testSignPdfSignat();
             */
 
-            
+            /*
             tester.testSignXAdES_InternallyDetached();
             
-            /*
+            
             tester.testSignXAdES_Attached_Enveloping();
             
             tester.testSignXAdES_Attached_Enveloped();
@@ -115,9 +115,9 @@ public class AfirmaServerSignatureServerPluginIT {
     }
 
     @Test
-    public void testSignPdf() throws URISyntaxException {
+    public File testSignPdf() throws URISyntaxException {
 
-        signPdf("/testfiles/normal.pdf", "testSignPdf");
+        return signPdf("/testfiles/normal.pdf", "testSignPdf");
     }
 
     @Test
@@ -126,7 +126,7 @@ public class AfirmaServerSignatureServerPluginIT {
         signPdf("/testfiles/signat.pdf", "testSignPdfSignat");
     }
 
-    protected void signPdf(String fitxerASignar, String resultName) throws URISyntaxException {
+    protected File signPdf(String fitxerASignar, String resultName) throws URISyntaxException {
         File file = getFile(fitxerASignar);
         String signType = FileInfoSignature.SIGN_TYPE_PADES;
         int signMode = FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED;
@@ -141,6 +141,8 @@ public class AfirmaServerSignatureServerPluginIT {
         saveResults(resultName, file, rename, signType, signMode);
 
         System.out.println("Fitxer resultat: " + rename);
+        
+        return rename;
     }
 
     public void saveResults(String name, File fileOriginal, File fileSigned, String signType, int signMode) {
@@ -352,8 +354,13 @@ public class AfirmaServerSignatureServerPluginIT {
     }
 
     private File getFile(String resourceNAme) throws URISyntaxException {
-        URL resource = getClass().getResource(resourceNAme);
-        Objects.requireNonNull(resource, () -> "No s'ha trobat el recurs " + resourceNAme);
-        return new File(resource.toURI());
+        if (resourceNAme.startsWith("file://")) {
+            return new File(resourceNAme.substring("file://".length()));
+        } else {
+        
+            URL resource = getClass().getResource(resourceNAme);
+            Objects.requireNonNull(resource, () -> "No s'ha trobat el recurs " + resourceNAme);
+            return new File(resource.toURI());
+        }
     }
 }

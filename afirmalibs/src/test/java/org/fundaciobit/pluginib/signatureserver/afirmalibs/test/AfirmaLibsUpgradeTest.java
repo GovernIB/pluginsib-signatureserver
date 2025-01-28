@@ -30,7 +30,9 @@ public class AfirmaLibsUpgradeTest {
         Security.addProvider(new BouncyCastleProvider());
         try {
 
-            byte[] fileToSign = getSimpleFileFromResource("hola_signat.pdf");
+            //byte[] fileToSign = getSimpleFileFromResource("hola_signat.pdf");
+            
+            byte[] fileToSign = FileUtils.readFromFile(new File("hola_signat.pdf"));
 
             CatCertTimeStampGenerator externalTimestamp = new CatCertTimeStampGenerator();
 
