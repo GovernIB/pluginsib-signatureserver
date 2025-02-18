@@ -14,3 +14,4 @@ nb-configuration.xml
 # Fitxers de configuració interns
 /afirmaserver/config/plugin.properties
 /signatureservertester/config/plugin.properties
+/miniappletinserver/src/test/java/org/fundaciobit/pluginsib/signatureserver/miniappletinserver/test/NoCommitar.java

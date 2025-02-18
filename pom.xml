@@ -20,6 +20,7 @@
         <module>afirmaserver</module>
         <module>afirmalibs</module>
         <module>signatureservertester</module>
+        <module>miniappletinserver</module>
     </modules>
 
     <developers>
