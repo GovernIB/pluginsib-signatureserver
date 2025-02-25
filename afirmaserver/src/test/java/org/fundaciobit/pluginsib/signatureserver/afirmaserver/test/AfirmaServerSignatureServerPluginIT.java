@@ -69,6 +69,8 @@ public class AfirmaServerSignatureServerPluginIT {
             //tester.testSignCAdES_Attached_Enveloped_No_Suportat();
             
             //tester.testSignCAdES_Attached_Enveloping();
+            
+            tester.testSignCAdES_Attached_Enveloping_With_Timestamp();
 
             //tester.testSignCAdES_Detached();
 
@@ -274,7 +276,7 @@ public class AfirmaServerSignatureServerPluginIT {
     public void testSignCAdES_Attached_Enveloping() throws Exception {
         signCades(FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING, "testSignCAdES_Attached_Enveloping");
     }
-    
+        
     
     @Test
     public File testSignCAdES_Attached_Enveloping_With_Timestamp() throws Exception {
