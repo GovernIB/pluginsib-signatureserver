@@ -229,11 +229,12 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
     private void initSemaphores() {
         int signSemaphorePermits = Integer.parseInt(getProperty(MAX_SIGN_CONCURRENCY, "100"));
-        log.info("Max sign concurrency: " + signSemaphorePermits);
         signSemaphore = new Semaphore(signSemaphorePermits);
-
         int upgradeSemaphorePermits = Integer.parseInt(getProperty(MAX_UPGRADE_CONCURRENCY, "100"));
-        log.info("Max upgrade concurrency: " + upgradeSemaphorePermits);
+        if (isDebug()) {
+            log.info("Max sign concurrency: " + signSemaphorePermits);
+            log.info("Max upgrade concurrency: " + upgradeSemaphorePermits);
+        }
         upgradeSemaphore = new Semaphore(upgradeSemaphorePermits);
     }
 
@@ -250,8 +251,8 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
             if (".".equals(transformersTemplatesPath) || transformersTemplatesPath == null
                     || transformersTemplatesPath.trim().length() == 0) {
 
-                log.info("\nReassignant TransformersTemplatesPath. Valor actual: ]" + transformersTemplatesPath
-                        + "[\n");
+                log.info(
+                        "\nReassignant TransformersTemplatesPath. Valor actual: ]" + transformersTemplatesPath + "[\n");
                 transfProp.put("TransformersTemplatesPath", getPropertyRequired(TRANSFORMERSTEMPLATESPATH_PROPERTY));
             }
 
@@ -373,11 +374,8 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     @Override
     public int[] getSupportedSignatureModes(String signType) {
         if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
-            return new int[] {
-                    FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING,
-                    FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED,
-                    FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED
-                  };
+            return new int[] { FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING,
+                    FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED, FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED };
         } else {
             return super.getSupportedSignatureModes(signType);
         }
@@ -490,7 +488,9 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
                     } else {
                         throw new Exception("Algorisme no suportat: " + algorithm);
                     }
-                    log.info("@FIRMA SERVER: SIGN_ALGO POST [algorisme] = " + algorisme);
+                    if (debug) {
+                        log.info("@FIRMA SERVER: SIGN_ALGO POST [algorisme] = " + algorisme);
+                    }
                 }
 
                 final String tipusFirma = fileInfo.getSignType();
@@ -1211,10 +1211,9 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
             final boolean isInput = true;
             int typeOfESignature = SignatureCommonUtils.getXAdESMode(signature, isInput);
 
-            
             if (SignatureConstants.SIGN_MODE_ATTACHED_ENVELOPING == typeOfESignature) {
                 inputParameters.put("dss:SignatureObject", new String(signature, StandardCharsets.UTF_8));
-            } else if (SignatureConstants.SIGN_MODE_ATTACHED_ENVELOPED == typeOfESignature 
+            } else if (SignatureConstants.SIGN_MODE_ATTACHED_ENVELOPED == typeOfESignature
                     || SignatureConstants.SIGN_MODE_DETACHED == typeOfESignature
                     || SignatureConstants.SIGN_MODE_EXTERNALLY_DETACHED == typeOfESignature) {
                 String idSignaturePtr = String.valueOf(Math.random() * 9999.0);
@@ -1233,12 +1232,12 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
      */
     /*
     public static String getXAdESFormat(byte[] signature) throws Exception {
-
+    
         DocumentBuilderFactory dBFactory = DocumentBuilderFactory.newInstance();
         dBFactory.setNamespaceAware(true);
-
+    
         org.w3c.dom.Document eSignature = dBFactory.newDocumentBuilder().parse(new ByteArrayInputStream(signature));
-
+    
         XMLSignature xmlSignature;
         String rootName = eSignature.getDocumentElement().getNodeName();
         if (rootName.equalsIgnoreCase("ds:Signature") || rootName.equals("ROOT_COSIGNATURES")) {
