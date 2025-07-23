@@ -11,6 +11,10 @@
     <artifactId>pluginsib-signatureserver-afirmaserver</artifactId>
     <packaging>jar</packaging>
     <name>FundacioBit - PluginsIB - SignatureServer - @firma Server (Integr@ 2.2.1)</name>
+    
+    <properties>
+        <integra.version>2.2.1_000</integra.version>
+    </properties>
 
     <dependencies>
 

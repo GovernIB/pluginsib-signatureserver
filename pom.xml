@@ -43,8 +43,7 @@
     </repository>
   </repositories>
   <properties>
-    <afirma.version>1.7.2</afirma.version>
-    <integra.version>2.2.1_000</integra.version>
+        <afirma.version>1.7.2</afirma.version>
   </properties>
   <dependencies>
     <dependency>
