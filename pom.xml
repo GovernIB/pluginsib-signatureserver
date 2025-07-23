@@ -1,92 +1,78 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
-    <artifactId>pluginsib-signatureserver</artifactId>
-    <version>4.1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-
-    <name>FundacioBit - PluginsIB - SignatureServer</name>
-
-    <parent>
-        <artifactId>caib-artifacts-github-governib-distribution-with-jdk11-jboss72</artifactId>
-        <groupId>es.caib.maven</groupId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
-
-    <modules>
-        <module>api</module>
-        <module>miniappletutils</module>
-        <module>afirmaserver</module>
-        <module>afirmalibs</module>
-        <module>signatureservertester</module>
-        <module>miniappletinserver</module>
-    </modules>
-
-    <developers>
-        <developer>
-            <id>anadal-fundaciobit</id>
-            <name>Antoni Nadal</name>
-        </developer>
-    </developers>
-
-    <organization>
-        <name>Fundació Bit - Govern Digital</name>
-        <url>https://governdigital.fundaciobit.org</url>
-    </organization>
-
-    <licenses>
-        <license>
-            <name>European Union Public Licence (EUPL v1.2)</name>
-            <url>https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf</url>
-        </license>
-    </licenses>
-
-    <repositories>
-        <repository>
-            <id>github_governib_maven</id>
-            <name>GitHub GovernIB Maven Repository</name>
-            <url>https://governib.github.io/maven/maven/</url>
-        </repository>
-    </repositories>
-
-    <properties>
-        <afirma.version>1.7.2</afirma.version>
-        <integra.version>2.2.1_000</integra.version>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.fundaciobit.pluginsib.core.v3</groupId>
-            <artifactId>pluginsib-core</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
-
-    <build>
-    </build>
-
-    <profiles>
-        <profile>
-            <!-- Profile per executar els tests d'integració -->
-            <id>testsIntegracio</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
-
+<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+  <artifactId>pluginsib-signatureserver</artifactId>
+  <version>4.1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>FundacioBit - PluginsIB - SignatureServer</name>
+  <parent>
+    <artifactId>caib-artifacts-github-governib-distribution-with-jdk11-jboss72</artifactId>
+    <groupId>es.caib.maven</groupId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+  <modules>
+    <module>api</module>
+    <module>miniappletutils</module>
+    <module>afirmalibs</module>
+    <module>signatureservertester</module>
+    <module>miniappletinserver</module>
+    <module>afirmaserver</module>
+    <module>afirmaserverintegra224</module>
+  </modules>
+  <developers>
+    <developer>
+      <id>anadal-fundaciobit</id>
+      <name>Antoni Nadal</name>
+    </developer>
+  </developers>
+  <organization>
+    <name>Fundació Bit - Govern Digital</name>
+    <url>https://governdigital.fundaciobit.org</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>European Union Public Licence (EUPL v1.2)</name>
+      <url>https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf</url>
+    </license>
+  </licenses>
+  <repositories>
+    <repository>
+      <id>github_governib_maven</id>
+      <name>GitHub GovernIB Maven Repository</name>
+      <url>https://governib.github.io/maven/maven/</url>
+    </repository>
+  </repositories>
+  <properties>
+    <afirma.version>1.7.2</afirma.version>
+    <integra.version>2.2.1_000</integra.version>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.fundaciobit.pluginsib.core.v3</groupId>
+      <artifactId>pluginsib-core</artifactId>
+      <version>3.0.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+  <build/>
+  <profiles>
+    <profile>
+      <!-- Profile per executar els tests d'integració -->
+      <id>testsIntegracio</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>integration-test</goal>
+                  <goal>verify</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

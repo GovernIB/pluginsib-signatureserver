@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -8,18 +9,22 @@
         <version>4.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>pluginsib-signatureserver-afirmaserver</artifactId>
+    <artifactId>pluginsib-signatureserver-afirmaserverintegra224</artifactId>
     <packaging>jar</packaging>
-    <name>FundacioBit - PluginsIB - SignatureServer - @firma Server (Integr@ 2.2.1)</name>
+    <name>FundacioBit - PluginsIB - SignatureServer - @firma Server (Integr@ 2.2.4)</name>
+
+    <properties>
+        <integra224.version>2.2.4_001</integra224.version>
+    </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
             <artifactId>pluginsib-signatureserver-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 
+        <!-- SMIME -->
         <dependency>
             <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
             <artifactId>pluginsib-signatureserver-miniappletutils</artifactId>
@@ -55,12 +60,10 @@
 
 
         <!-- RUNTIME -->
-
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
             <artifactId>jboss-annotations-api_1.3_spec</artifactId>
         </dependency>
-
 
         <dependency>
             <groupId>javax.activation</groupId>
@@ -78,27 +81,18 @@
             </exclusions>
         </dependency>
 
-
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpkix-jdk15on</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
-        </dependency>
-
+        <!-- <dependency> <groupId>org.bouncycastle</groupId> <artifactId>bcpkix-jdk15on</artifactId> </dependency> <dependency> <groupId>org.bouncycastle</groupId> 
+            <artifactId>bcprov-jdk15on</artifactId> </dependency> -->
         <dependency>
             <groupId>es.gob.afirma</groupId>
             <artifactId>Integra-commons</artifactId>
-            <version>${integra.version}</version>
+            <version>${integra224.version}</version>
         </dependency>
 
         <dependency>
             <groupId>es.gob.afirma</groupId>
             <artifactId>Integra-commons-xml</artifactId>
-            <version>${integra.version}</version>
+            <version>${integra224.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.santuario</groupId>
@@ -122,8 +116,14 @@
         <dependency>
             <groupId>es.gob.afirma</groupId>
             <artifactId>Integra-ws</artifactId>
-            <version>${integra.version}</version>
+            <version>${integra224.version}</version>
             <exclusions>
+                <!-- Problemes enforcer de net.sf.ehcache:ehcache entre v2.10.5 i v2.10.6 -->
+                <exclusion>
+                    <groupId>net.sf.ehcache</groupId>
+                    <artifactId>ehcache</artifactId>
+                </exclusion>
+
                 <exclusion>
                     <groupId>com.sun.xml.bind</groupId>
                     <artifactId>jaxb-impl</artifactId>
@@ -132,13 +132,22 @@
                     <groupId>sun-jaxws</groupId>
                     <artifactId>stax-ex</artifactId>
                 </exclusion>
+                <!-- Feim exclusió de AXIS2 ja que cridam emprant ApacheCXF -->
                 <exclusion>
-                    <groupId>org.apache.axis</groupId>
-                    <artifactId>axis</artifactId>
+                    <groupId>org.apache.axis2</groupId>
+                    <artifactId>axis2-adb</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>org.apache.axis</groupId>
-                    <artifactId>axis-jaxrpc</artifactId>
+                    <groupId>org.apache.axis2</groupId>
+                    <artifactId>axis2-saaj</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.axis2</groupId>
+                    <artifactId>axis2-transport-local</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.axis2</groupId>
+                    <artifactId>axis2-transport-http</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>com.sun.xml.wss</groupId>
@@ -146,13 +155,24 @@
                 </exclusion>
                 <exclusion>
                     <groupId>org.apache.ws.security</groupId>
-                    <artifactId>wss4j</artifactId>
+                    <artifactId>wss4j-ws-security-dom</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.ws.security</groupId>
+                    <artifactId>wss4j-ws-security-common</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
 
+        <!-- Per l'exclusion de la dependència Integra-ws -->
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>2.10.6</version>
+        </dependency>
 
-        <!-- ==========  TESTS =========== -->
+
+        <!-- ========== TESTS =========== -->
 
         <dependency>
             <groupId>xerces</groupId>
@@ -165,13 +185,7 @@
             </exclusions>
             <scope>test</scope>
         </dependency>
-        <!--
-        <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>
-            <scope>test</scope>
-        </dependency>
--->
+        <!-- <dependency> <groupId>org.glassfish.jaxb</groupId> <artifactId>jaxb-runtime</artifactId> <scope>test</scope> </dependency> -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
@@ -203,14 +217,14 @@
             </exclusions>
         </dependency>
 
-        <!-- Per l'exclussió de la dependència jaxws-rt-->
+        <!-- Per l'exclussió de la dependència jaxws-rt -->
         <dependency>
             <groupId>org.jvnet.staxex</groupId>
             <artifactId>stax-ex</artifactId>
             <version>1.8</version>
         </dependency>
 
-        <!-- Per l'exclussió de la dependència jaxws-rt-->
+        <!-- Per l'exclussió de la dependència jaxws-rt -->
         <dependency>
             <groupId>org.jvnet.mimepull</groupId>
             <artifactId>mimepull</artifactId>

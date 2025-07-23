@@ -15,3 +15,31 @@ nb-configuration.xml
 /afirmaserver/config/plugin.properties
 /signatureservertester/config/plugin.properties
 /miniappletinserver/src/test/java/org/fundaciobit/pluginsib/signatureserver/miniappletinserver/test/NoCommitar.java
+/afirmaserverintegra224/result_testSignBigPdf_1753180023219.pdf
+/afirmaserverintegra224/result_testSignCAdES_Attached_Enveloping_1740050004003.csig
+/afirmaserverintegra224/results
+/afirmaserverintegra224/BIG_72Mb.pdf
+/afirmaserverintegra224/deps.txt
+/afirmaserverintegra224/genapifromwsdl.bat
+/afirmaserverintegra224/result_testSignBigPdf_1753176647391.pdf
+/afirmaserverintegra224/config/plugin.properties
+/afirmaserverintegra224/config/plugin.properties.caib
+/afirmaserverintegra224/config/plugin.properties.fundaciobit
+/afirmaserverintegra224/config/plugin_afirmaserver_regweb3.properties
+/afirmaserverintegra224/src/main/java/org/fundaciobit/pluginsib/signatureserver/afirmaserver/AfirmaServerSignatureServerPlugin.java.modificat
+/afirmaserverintegra224/2025-01-29 Consulta PADES-T
+/afirmaserverintegra224/src/test/java/org/fundaciobit/pluginsib/signatureserver/afirmaserver/test/PAdESTimestampSignature.java
+/afirmaserverintegra224/src/test/java/org/fundaciobit/pluginsib/signatureserver/afirmaserver/test/SignatureAndUpgradeTester.java
+/afirmaserver/config/plugin.properties.caib
+/afirmaserver/config/plugin.properties.fundaciobit
+/afirmaserver/config/plugin_afirmaserver_regweb3.properties
+/afirmaserver/doc/@Firma-Global-Firma-MAN.pdf
+/afirmaserver/doc/@Firma-Global-XMLSOAP_PROFILE_DSS.pdf
+/afirmaserver/src/test/java/org/fundaciobit/pluginsib/signatureserver/afirmaserver/test/PAdESTimestampSignature.java
+/afirmaserver/src/test/java/org/fundaciobit/pluginsib/signatureserver/afirmaserver/test/SignatureAndUpgradeTester.java
+/afirmaserver/2025-01-29 Consulta PADES-T
+/afirmaserverdirect
+/afirmaserver/results
+/afirmaserverintegra224/normal.pdf
+/afirmaserverintegra224/normal_signed.pdf
+/afirmaserverintegra224/src/test/resources/testfiles/BIG_72Mb.pdf

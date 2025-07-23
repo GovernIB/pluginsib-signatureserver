@@ -1,0 +1,40 @@
+# Classe org.fundaciobit.pluginsib.signatureserver.afirmaserver.AfirmaServerSignatureServerPlugin
+
+# Obligatiori. Aplicació definida dins "Gestión de Aplicaciones" de @firma federat, on
+# en l'apartat 'Parametros de la aplicación' en el camp "Política de TimeStamp" té
+# definit el valor "Sin TimeStamp" 
+plugins.signatureserver.afirmaserver.applicationID=appPrueba
+
+# Opcional. Aplicació definida dins "Gestión de Aplicaciones" de @firma federat, on 
+# en l'apartat 'Parametros de la aplicación' en el camp "Política de TimeStamp" té definit
+# el valor "Con TimeStamp". Si aquest valor no està definit llavors no es poden
+# fer firmes amb segell de temps (No suporta  PAdES-T).
+plugins.signatureserver.afirmaserver.applicationID_TimeStamp=appPruebaTS
+
+# Si signaturesSet.getCommonInfoSignature().getUsername() es null, llavors
+# s'utilitza aquest valor com a sistema de selecció del certificat amb el que firmar
+plugins.signatureserver.afirmaserver.defaultAliasCertificate=serversigner
+plugins.signatureserver.afirmaserver.TransformersTemplatesPath=config/transformersTemplates
+
+plugins.signatureserver.afirmaserver.debug=true
+plugins.signatureserver.afirmaserver.prinxml=false
+
+plugins.signatureserver.afirmaserver.endpoint=http://localhost:9090/afirmaws/services/DSSAfirmaSign
+plugins.signatureserver.afirmaserver.endpoint_upgrade=http://localhost:9090/afirmaws/services/DSSAfirmaVerify
+
+# opcional (Default 60000)
+es.caib.portafib.pluginsib.signatureserver.afirmaserver.connectTimeout=300000
+es.caib.portafib.pluginsib.signatureserver.afirmaserver.readTimeout=300000 
+
+
+# USERNAME-PASSWORD Token
+plugins.signatureserver.afirmaserver.authorization.username=userTest
+plugins.signatureserver.afirmaserver.authorization.password=12345
+
+# CERTIFICATE Token
+#plugins.signatureserver.afirmaserver.authorization.ks.path=D:/dades/dades/proves-dgidt.jks
+#plugins.signatureserver.afirmaserver.authorization.ks.type=JKS
+#plugins.signatureserver.afirmaserver.authorization.ks.password=<<PASSWORD>>
+#plugins.signatureserver.afirmaserver.authorization.ks.cert.alias=1
+#plugins.signatureserver.afirmaserver.authorization.ks.cert.password=<<PASSWORD>>
+
