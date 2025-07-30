@@ -52,10 +52,17 @@
 
         <dependency>
             <groupId>es.gob.afirma</groupId>
-            <artifactId>afirma-crypto-pdf</artifactId>
+            <artifactId>afirma-crypto-pdf-for-pluginsib</artifactId>
             <version>${afirma.version}</version>
         </dependency>
-
+        <!-- Això és una dependència de afirma-crypto-pdf-for-pluginsib però compilant amb mvn no la recull  :-( -->
+        <!-- Per això que li hem de posar de forma explícita. -->
+        <dependency>
+             <groupId>es.gob.afirma.lib</groupId>
+            <artifactId>afirma-lib-itext</artifactId>
+            <version>1.3</version>
+        </dependency>
+        
         <dependency>
             <groupId>es.gob.afirma</groupId>
             <artifactId>afirma-crypto-xades</artifactId>
