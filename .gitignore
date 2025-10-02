@@ -43,3 +43,4 @@ nb-configuration.xml
 /afirmaserverintegra224/normal.pdf
 /afirmaserverintegra224/normal_signed.pdf
 /afirmaserverintegra224/src/test/resources/testfiles/BIG_72Mb.pdf
+/afirmaserver/src/test/java/org/fundaciobit/pluginsib/signatureserver/afirmaserver/test/MyAfirmaServerSignatureServerPluginIT.java

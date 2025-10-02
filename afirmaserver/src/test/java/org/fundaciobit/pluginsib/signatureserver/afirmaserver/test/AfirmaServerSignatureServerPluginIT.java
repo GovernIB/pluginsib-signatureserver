@@ -43,36 +43,29 @@ public class AfirmaServerSignatureServerPluginIT {
 
             AfirmaServerSignatureServerPluginIT tester = new AfirmaServerSignatureServerPluginIT();
 
-            /*
             tester.testSignBigPdf();
-            
-            tester.testSignPdf();
-            
-            tester.testSignPdfSignat();
-            */
 
-            /*
+            tester.testSignPdf();
+
+            tester.testSignPdfSignat();
+
             tester.testSignXAdES_InternallyDetached();
-            
-            
+
             tester.testSignXAdES_Attached_Enveloping();
-            
+
             tester.testSignXAdES_Attached_Enveloped();
 
             tester.testSignXAdES_Detached_No_Suportat();
-            */
-           
-            //tester.testSignCAdES_InternallyDetached_No_Suportat();
 
-            
+            tester.testSignCAdES_InternallyDetached_No_Suportat();
 
-            //tester.testSignCAdES_Attached_Enveloped_No_Suportat();
-            
-            //tester.testSignCAdES_Attached_Enveloping();
-            
+            tester.testSignCAdES_Attached_Enveloped_No_Suportat();
+
+            tester.testSignCAdES_Attached_Enveloping();
+
             tester.testSignCAdES_Attached_Enveloping_With_Timestamp();
 
-            //tester.testSignCAdES_Detached();
+            tester.testSignCAdES_Detached();
 
             System.out.println(" --- FINAL --- ");
 
@@ -121,15 +114,12 @@ public class AfirmaServerSignatureServerPluginIT {
 
         return signPdf("/testfiles/normal.pdf", "testSignPdf");
     }
-    
-    
+
     @Test
     public File testSignPAdESTimestamp() throws URISyntaxException {
 
         return signPdf("/testfiles/normal.pdf", "testSignPadesTimestamp", true);
     }
-    
-    
 
     @Test
     public void testSignPdfSignat() throws URISyntaxException {
@@ -137,13 +127,12 @@ public class AfirmaServerSignatureServerPluginIT {
         signPdf("/testfiles/signat.pdf", "testSignPdfSignat");
     }
 
-    
-    protected File signPdf(String fitxerASignar, String resultName ) throws URISyntaxException {
+    protected File signPdf(String fitxerASignar, String resultName) throws URISyntaxException {
         return signPdf(fitxerASignar, resultName, false);
     }
-    
-    
-    protected File signPdf(String fitxerASignar, String resultName, boolean userRequiresTimestamp ) throws URISyntaxException {
+
+    protected File signPdf(String fitxerASignar, String resultName, boolean userRequiresTimestamp)
+            throws URISyntaxException {
         File file = getFile(fitxerASignar);
         String signType = FileInfoSignature.SIGN_TYPE_PADES;
         int signMode = FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED;
@@ -158,7 +147,7 @@ public class AfirmaServerSignatureServerPluginIT {
         saveResults(resultName, file, rename, signType, signMode);
 
         System.out.println("Fitxer resultat: " + rename);
-        
+
         return rename;
     }
 
@@ -231,7 +220,7 @@ public class AfirmaServerSignatureServerPluginIT {
             System.out.println("testSignXAdES_Detached_No_Suportat(): OK");
         }
     }
-    
+
     protected void signXades(int signMode, String resultName) throws Exception {
         this.signXades(signMode, resultName, false);
     }
@@ -276,8 +265,7 @@ public class AfirmaServerSignatureServerPluginIT {
     public void testSignCAdES_Attached_Enveloping() throws Exception {
         signCades(FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING, "testSignCAdES_Attached_Enveloping");
     }
-        
-    
+
     @Test
     public File testSignCAdES_Attached_Enveloping_With_Timestamp() throws Exception {
         return signCades(FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING, "testSignCAdES_Attached_Enveloping", true);
@@ -299,18 +287,17 @@ public class AfirmaServerSignatureServerPluginIT {
         signCades(FileInfoSignature.SIGN_MODE_DETACHED, "testSignCAdES_Detached");
     }
 
-    
     protected void signCades(int signMode, String resultName) throws Exception {
         signCades(signMode, resultName, false);
     }
-    
+
     protected File signCades(int signMode, String resultName, boolean userRequiresTimestamp) throws Exception {
 
         File file = getFile("/testfiles/binari.bin");
 
         final String signType = FileInfoSignature.SIGN_TYPE_CADES;
         SignaturesSet signaturesSet = getSignaturesSet(
-                getFileInfoSignature(file, "application/xml", signType, signMode, userRequiresTimestamp ));
+                getFileInfoSignature(file, "application/xml", signType, signMode, userRequiresTimestamp));
         SignaturesSet set = plugin.signDocuments(signaturesSet, null, null);
         validarStatus(set);
 
@@ -318,11 +305,11 @@ public class AfirmaServerSignatureServerPluginIT {
         File rename = new File("result_" + resultName + "_" + System.currentTimeMillis() + ".csig");
         System.out.println(" resultat: " + rename);
         Assert.assertTrue(signedData.renameTo(rename));
-        
+
         saveResults(resultName, file, rename, signType, signMode);
-        
+
         System.out.println("Fitxer resultat: " + rename);
-        
+
         return rename;
     }
 
@@ -380,9 +367,9 @@ public class AfirmaServerSignatureServerPluginIT {
         return new CommonInfoSignature("ca", "", null, null);
     }
 
-    private FileInfoSignature getFileInfoSignature(File file, String mime, String signType, int signMode, boolean userRequiresTimestamp) {
+    private FileInfoSignature getFileInfoSignature(File file, String mime, String signType, int signMode,
+            boolean userRequiresTimestamp) {
 
-        
         return new FileInfoSignature("1", file, null, mime, file.getName(), null, null, null, 1, "ca",
                 FileInfoSignature.SIGN_OPERATION_SIGN, signType, FileInfoSignature.SIGN_ALGORITHM_SHA256, signMode,
                 FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT, null, null, null, userRequiresTimestamp, null, null,
@@ -393,7 +380,7 @@ public class AfirmaServerSignatureServerPluginIT {
         if (resourceNAme.startsWith("file://")) {
             return new File(resourceNAme.substring("file://".length()));
         } else {
-        
+
             URL resource = getClass().getResource(resourceNAme);
             Objects.requireNonNull(resource, () -> "No s'ha trobat el recurs " + resourceNAme);
             return new File(resource.toURI());

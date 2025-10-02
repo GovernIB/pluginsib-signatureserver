@@ -715,24 +715,58 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
                     log.info(" ============ INPUT PROPERTIES ==============\n" + inputProperties + "\n");
                 }
 
-                // Construimos el XML que constituye la petición
-                String xmlInput = transformersFacade.generateXml(inParams, GeneralConstants.DSS_AFIRMA_SIGN_REQUEST,
-                        GeneralConstants.DSS_AFIRMA_SIGN_METHOD, TransformersConstants.VERSION_10);
-
                 if (debug) {
-                    log.info(" XML_INPUT\n" + xmlInput);
+                  printMemory("PRE[" + Thread.currentThread().getId() + "] - ");
                 }
-
-                String xmlOutput = cridadaWsSign(xmlInput);
-
-                if (debug) {
-                    log.info(" XML_OUTPUT  =\n" + xmlOutput);
-                }
-
-                // Parseamos la respuesta en un mapa
-                Map<String, Object> propertiesResult = transformersFacade.parseResponse(xmlOutput,
+                
+                Map<String, Object> propertiesResult;
+                {
+                
+                    // Construimos el XML que constituye la petición
+                    if (debug) {
+                        log.info("Generant XML de Input ...");
+                    }
+                    String xmlInput = transformersFacade.generateXml(inParams, GeneralConstants.DSS_AFIRMA_SIGN_REQUEST,
+                            GeneralConstants.DSS_AFIRMA_SIGN_METHOD, TransformersConstants.VERSION_10);
+                    
+                    
+                    inParams = null; // Forçar alliberació de memòria
+    
+                    final boolean printXML = isPrintXML();
+    
+                    if (printXML) {
+                        log.info(" XML_INPUT\n" + xmlInput);
+                    }
+    
+                    if (debug) {
+                        log.info("Cridant WS amb XML de Input ...");
+                    }
+                    String xmlOutput = cridadaWsSign(xmlInput);
+                    
+                    xmlInput = null; // Forçar alliberació de memòria
+                    
+                    if (printXML) {
+                        log.info(" XML_OUTPUT  =\n" + xmlOutput);
+                    }
+    
+                    // Parseamos la respuesta en un mapa
+                    if (debug) {
+                        log.info("Processant resposta WS ...");
+                    }
+                    propertiesResult = transformersFacade.parseResponse(xmlOutput,
                         GeneralConstants.DSS_AFIRMA_SIGN_REQUEST, GeneralConstants.DSS_AFIRMA_SIGN_METHOD,
                         TransformersConstants.VERSION_10);
+                    
+                    xmlOutput = null; // Forçar alliberació de memòria
+                }
+                
+                if (debug) {
+                    printMemory("POST[" + Thread.currentThread().getId() + "] - ");
+                }
+                
+                if (debug) {
+                    log.info("Generant Resultats ...");
+                }
 
                 if (propertiesResult != null) {
                     ServerSignerResponse response = new ServerSignerResponse();
@@ -835,6 +869,13 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
         signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_FINAL_OK);
         return signaturesSet;
+    }
+
+    protected void printMemory(String titol) {
+        Runtime runtime = Runtime.getRuntime();
+        log.info(titol + "Memòria màxima: " + runtime.maxMemory() / (1024 * 1024) + " MB");
+        log.info(titol + "Memòria  total: " + runtime.totalMemory() / (1024 * 1024) + " MB");
+        log.info(titol + "Memòria lliure: " + runtime.freeMemory() / (1024 * 1024) + " MB");
     }
 
     @Override
