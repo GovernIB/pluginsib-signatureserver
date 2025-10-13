@@ -51,6 +51,13 @@
         <dependency>
             <groupId>org.jboss.spec.javax.xml.ws</groupId>
             <artifactId>jboss-jaxws-api_2.3_spec</artifactId>
+            <exclusions>
+                <exclusion>               
+                    <!--  Problemes amb JBoss 7.4. Veure profiles jboss_74_explicit -->
+                    <groupId>jakarta.activation</groupId>
+                    <artifactId>jakarta.activation-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -286,7 +293,7 @@
                 <dependency>
                     <groupId>jakarta.activation</groupId>
                     <artifactId>jakarta.activation-api</artifactId>
-                    <version>1.2.1</version>
+                    <version>1.2.2.redhat-00001</version>
                 </dependency>
                  <!-- Per l'exclussió de la dependència jaxws-rt-->
                 <dependency>
