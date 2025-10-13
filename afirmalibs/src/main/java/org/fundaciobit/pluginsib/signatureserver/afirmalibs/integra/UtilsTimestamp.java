@@ -1,7 +1,5 @@
 package org.fundaciobit.pluginsib.signatureserver.afirmalibs.integra;
 
-import org.bouncycastle.asn1.DERObjectIdentifier;
-
 import org.bouncycastle.asn1.cms.Attribute;
 import org.bouncycastle.asn1.cms.AttributeTable;
 import org.bouncycastle.asn1.pkcs.PKCSObjectIdentifiers;
@@ -12,7 +10,7 @@ import org.jboss.logging.Logger;
 
 
 
-@SuppressWarnings("deprecation")
+//@SuppressWarnings("deprecation")
 public class UtilsTimestamp {
 
   public static Logger LOGGER = Logger.getLogger(UtilsTimestamp.class);
@@ -27,8 +25,8 @@ public class UtilsTimestamp {
             throw new IllegalArgumentException(errorMsg);
         }
         AttributeTable unsignedAttributes = signerInformation.getUnsignedAttributes();
-        if (unsignedAttributes != null && unsignedAttributes.get((DERObjectIdentifier)PKCSObjectIdentifiers.id_aa_signatureTimeStampToken) != null) {
-            Attribute attributeTimeStampToken = unsignedAttributes.get((DERObjectIdentifier)PKCSObjectIdentifiers.id_aa_signatureTimeStampToken);
+        if (unsignedAttributes != null && unsignedAttributes.get(PKCSObjectIdentifiers.id_aa_signatureTimeStampToken) != null) {
+            Attribute attributeTimeStampToken = unsignedAttributes.get(PKCSObjectIdentifiers.id_aa_signatureTimeStampToken);
             try {
                 //CMSSignedData csd =  new CMSSignedData(attributeTimeStampToken.getAttrValues().getObjectAt(0).getDERObject().getDEREncoded());
                 CMSSignedData csd =  new CMSSignedData(attributeTimeStampToken.getAttrValues().getObjectAt(0).toASN1Primitive().getEncoded());

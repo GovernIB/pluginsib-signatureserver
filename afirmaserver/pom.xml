@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -11,7 +12,7 @@
     <artifactId>pluginsib-signatureserver-afirmaserver</artifactId>
     <packaging>jar</packaging>
     <name>FundacioBit - PluginsIB - SignatureServer - @firma Server (Integr@ 2.2.1)</name>
-    
+
     <properties>
         <integra.version>2.2.1_000</integra.version>
     </properties>
@@ -63,12 +64,6 @@
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
             <artifactId>jboss-annotations-api_1.3_spec</artifactId>
-        </dependency>
-
-
-        <dependency>
-            <groupId>javax.activation</groupId>
-            <artifactId>activation</artifactId>
         </dependency>
 
         <dependency>
@@ -207,20 +202,105 @@
             </exclusions>
         </dependency>
 
-        <!-- Per l'exclussió de la dependència jaxws-rt-->
-        <dependency>
-            <groupId>org.jvnet.staxex</groupId>
-            <artifactId>stax-ex</artifactId>
-            <version>1.8</version>
-        </dependency>
 
-        <!-- Per l'exclussió de la dependència jaxws-rt-->
-        <dependency>
-            <groupId>org.jvnet.mimepull</groupId>
-            <artifactId>mimepull</artifactId>
-            <version>1.7</version>
-        </dependency>
+
+
 
     </dependencies>
+
+    <profiles>
+    
+        <!-- Profile jboss72: actiu per defecte -->
+        <profile>
+            <id>jboss72_def</id>
+            <activation>
+                <property>
+                    <name>!jboss</name>
+                </property>
+            </activation>
+            <dependencies>
+                <!-- Dependències específiques per a JBoss 7.2 -->
+                <dependency>
+                    <groupId>javax.activation</groupId>
+                    <artifactId>activation</artifactId>
+                    <type>jar</type>
+                </dependency>
+                 <!-- Per l'exclussió de la dependència jaxws-rt-->
+                <dependency>
+                    <groupId>org.jvnet.mimepull</groupId>
+                    <artifactId>mimepull</artifactId>
+                    <version>1.7</version>
+                </dependency>
+                        <!-- Per l'exclussió de la dependència jaxws-rt-->
+                <dependency>
+                    <groupId>org.jvnet.staxex</groupId>
+                    <artifactId>stax-ex</artifactId>
+                    <version>1.8</version>
+                </dependency>
+            </dependencies>
+        </profile>
+    
+    
+        <!-- Profile jboss72: actiu per propietat -->
+        <profile>
+            <id>jboss72_explicit</id>
+            <activation>
+                <property>
+                    <name>jboss</name>
+                    <value>7.2</value>
+                </property>
+            </activation>
+            <dependencies>
+                <!-- Dependències específiques per a JBoss 7.2 -->
+                <dependency>
+                    <groupId>javax.activation</groupId>
+                    <artifactId>activation</artifactId>
+                    <type>jar</type>
+                </dependency>
+                 <!-- Per l'exclussió de la dependència jaxws-rt-->
+                <dependency>
+                    <groupId>org.jvnet.mimepull</groupId>
+                    <artifactId>mimepull</artifactId>
+                    <version>1.7</version>
+                </dependency>
+                <!-- Per l'exclussió de la dependència jaxws-rt-->
+                <dependency>
+                    <groupId>org.jvnet.staxex</groupId>
+                    <artifactId>stax-ex</artifactId>
+                    <version>1.8</version>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <!-- Profile jboss74: se activa manualmente -->
+        <profile>
+            <id>jboss74_explicit</id>
+            <activation>
+                <property>
+                    <name>jboss</name>
+                    <value>7.4</value>
+                </property>
+            </activation>
+            <dependencies>
+                <!-- Dependències específiques per a JBoss 7.4 -->
+                <dependency>
+                    <groupId>jakarta.activation</groupId>
+                    <artifactId>jakarta.activation-api</artifactId>
+                    <version>1.2.1</version>
+                </dependency>
+                 <!-- Per l'exclussió de la dependència jaxws-rt-->
+                <dependency>
+                    <groupId>org.jvnet.mimepull</groupId>
+                    <artifactId>mimepull</artifactId>
+                    <version>1.9.7</version>
+                </dependency>
+                        <!-- Per l'exclussió de la dependència jaxws-rt-->
+                <dependency>
+                    <groupId>org.jvnet.staxex</groupId>
+                    <artifactId>stax-ex</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 
 </project>

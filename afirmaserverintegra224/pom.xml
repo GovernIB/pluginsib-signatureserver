@@ -66,11 +66,6 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.activation</groupId>
-            <artifactId>activation</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.sun.xml.messaging.saaj</groupId>
             <artifactId>saaj-impl</artifactId>
             <exclusions>
@@ -217,20 +212,104 @@
             </exclusions>
         </dependency>
 
-        <!-- Per l'exclussió de la dependència jaxws-rt -->
-        <dependency>
-            <groupId>org.jvnet.staxex</groupId>
-            <artifactId>stax-ex</artifactId>
-            <version>1.8</version>
-        </dependency>
 
-        <!-- Per l'exclussió de la dependència jaxws-rt -->
-        <dependency>
-            <groupId>org.jvnet.mimepull</groupId>
-            <artifactId>mimepull</artifactId>
-            <version>1.7</version>
-        </dependency>
 
     </dependencies>
+
+    <profiles>
+    
+        <!-- Profile jboss72: actiu per defecte -->
+        <profile>
+            <id>jboss72_def</id>
+            <activation>
+                <property>
+                    <name>!jboss</name>
+                </property>
+            </activation>
+            <dependencies>
+                <!-- Dependències específiques per a JBoss 7.2 -->
+                <dependency>
+                    <groupId>javax.activation</groupId>
+                    <artifactId>activation</artifactId>
+                    <type>jar</type>
+                </dependency>
+                        <!-- Per l'exclussió de la dependència jaxws-rt -->
+                <dependency>
+                    <groupId>org.jvnet.staxex</groupId>
+                    <artifactId>stax-ex</artifactId>
+                    <version>1.8</version>
+                </dependency>
+
+        <!-- Per l'exclussió de la dependència jaxws-rt -->
+                <dependency>
+                    <groupId>org.jvnet.mimepull</groupId>
+                    <artifactId>mimepull</artifactId>
+                    <version>1.7</version>
+                </dependency>
+            </dependencies>
+        </profile>
+    
+    
+        <!-- Profile jboss72: actiu per propietat -->
+        <profile>
+            <id>jboss72_explicit</id>
+            <activation>
+                <property>
+                    <name>jboss</name>
+                    <value>7.2</value>
+                </property>
+            </activation>
+            <dependencies>
+                <!-- Dependències específiques per a JBoss 7.2 -->
+                <dependency>
+                    <groupId>javax.activation</groupId>
+                    <artifactId>activation</artifactId>
+                </dependency>
+                <!-- Per l'exclussió de la dependència jaxws-rt -->
+                <dependency>
+                    <groupId>org.jvnet.staxex</groupId>
+                    <artifactId>stax-ex</artifactId>
+                    <version>1.8</version>
+                </dependency>
+
+                <!-- Per l'exclussió de la dependència jaxws-rt -->
+                <dependency>
+                    <groupId>org.jvnet.mimepull</groupId>
+                    <artifactId>mimepull</artifactId>
+                    <version>1.7</version>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <!-- Profile jboss74: se activa manualmente -->
+        <profile>
+            <id>jboss74_explicit</id>
+            <activation>
+                <property>
+                    <name>jboss</name>
+                    <value>7.4</value>
+                </property>
+            </activation>
+            <dependencies>
+                <!-- Dependències específiques per a JBoss 7.4 -->
+                <dependency>
+                    <groupId>jakarta.activation</groupId>
+                    <artifactId>jakarta.activation-api</artifactId>
+                    <version>1.2.1</version>
+                </dependency>
+                <!-- Per l'exclussió de la dependència jaxws-rt -->
+                <dependency>
+                    <groupId>org.jvnet.staxex</groupId>
+                    <artifactId>stax-ex</artifactId>
+                </dependency>
+                <!-- Per l'exclussió de la dependència jaxws-rt -->
+                <dependency>
+                    <groupId>org.jvnet.mimepull</groupId>
+                    <artifactId>mimepull</artifactId>
+                    <version>1.9.7</version>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 
 </project>
