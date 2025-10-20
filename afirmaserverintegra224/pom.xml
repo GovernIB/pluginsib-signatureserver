@@ -51,6 +51,12 @@
         <dependency>
             <groupId>org.jboss.spec.javax.xml.ws</groupId>
             <artifactId>jboss-jaxws-api_2.3_spec</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>jakarta.activation</groupId>
+                    <artifactId>jakarta.activation-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -82,6 +88,12 @@
             <groupId>es.gob.afirma</groupId>
             <artifactId>Integra-commons</artifactId>
             <version>${integra224.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>jakarta.activation</groupId>
+                    <artifactId>jakarta.activation-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -184,7 +196,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>1.7.22</version>
+            <version>1.7.29</version>
             <scope>test</scope>
         </dependency>
 
@@ -240,7 +252,7 @@
                     <version>1.8</version>
                 </dependency>
 
-        <!-- Per l'exclussió de la dependència jaxws-rt -->
+                <!-- Per l'exclussió de la dependència jaxws-rt -->
                 <dependency>
                     <groupId>org.jvnet.mimepull</groupId>
                     <artifactId>mimepull</artifactId>
@@ -295,7 +307,7 @@
                 <dependency>
                     <groupId>jakarta.activation</groupId>
                     <artifactId>jakarta.activation-api</artifactId>
-                    <version>1.2.1</version>
+                    <version>1.2.2.redhat-00001</version>
                 </dependency>
                 <!-- Per l'exclussió de la dependència jaxws-rt -->
                 <dependency>
