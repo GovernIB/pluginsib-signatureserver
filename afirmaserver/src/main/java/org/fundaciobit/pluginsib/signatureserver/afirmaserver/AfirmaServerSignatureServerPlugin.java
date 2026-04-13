@@ -312,7 +312,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
                 return true;
             } else {
                 if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
-                    log.warn("No sabem per quina raó el plugin [" + getName(new Locale("ca"))
+                    log.warn("No sabem per quina raó el servidor de @firma [" + getName(new Locale("ca"))
                             + "] no afegeix Segell de Temps en les firmes PAdES");
                 }
             }
@@ -407,7 +407,8 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         if (isIgnoreServerCertificates()) {
             throw new UnsupportedOperationException("La propietat [" + IGNORE_SERVER_CERTIFICATES
                     + "] ja no està soportada."
-                    + "Si necessita connectar a un servidor SSL amb un certificat no reconegut per la JVM, incorpori'l al trustStore.");
+                    + "Si necessita connectar a un servidor SSL amb un certificat no reconegut per la JVM,"
+                    + " incorpori'l al trustStore.");
         }
 
         return checkFilter(this, signaturesSet, suportXAdES_T, this.log);// OK
