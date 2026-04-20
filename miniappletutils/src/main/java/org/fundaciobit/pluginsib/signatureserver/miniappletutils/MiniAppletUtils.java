@@ -145,7 +145,7 @@ public class MiniAppletUtils {
         }
     }
 
-    public static void convertCommon(FileInfoSignature fileInfo, Properties miniAppletProperties) {
+    public static void convertCommon(FileInfoSignature fileInfo, Properties miniAppletProperties) throws Exception {
 
         /*
          * explicit La firma resultante no incluirá los datos firmados. Si no se
@@ -164,7 +164,7 @@ public class MiniAppletUtils {
             miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGN_MODE,
                     MiniAppletConstants.VALUE_SIGN_MODE_EXPLICIT);
         } else {
-            log.warn("convertCommon:: No es suporta el mode de firma ]" + fileInfo.getSignMode() + "[");
+            throw new Exception("convertCommon:: No es suporta el mode de firma ]" + fileInfo.getSignMode() + "[");
         }
 
         // Location (comú a Pades, Xades i cades)

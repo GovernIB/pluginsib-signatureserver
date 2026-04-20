@@ -44,6 +44,19 @@
             </exclusions>
         </dependency>
 
+        <dependency>
+            <artifactId>afirma-crypto-cades</artifactId>
+            <groupId>es.gob.afirma</groupId>
+            <version>${afirma.version}</version>
+        </dependency>
+        
+        
+        <dependency>
+            <artifactId>afirma-crypto-pdf</artifactId>
+            <groupId>es.gob.afirma</groupId>
+            <version>${afirma.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>

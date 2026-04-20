@@ -7,8 +7,11 @@ import java.util.Properties;
 /**
  * 
  * @author anadal
+ * 
+ * @deprecated Utilitzar {@link PadesTriPhaseSignerUsingPrivateKey} en el seu lloc.
  *
  */
+@Deprecated(since="2024-06")
 public class MiniAppletInServerPAdESSigner extends AbstractTriFaseSigner {
 
   final PrivateKey privateKey;

@@ -8,10 +8,12 @@ import java.util.GregorianCalendar;
 import java.util.Properties;
 
 /**
- * 
- * @author anadal
- *
+ * Implementació de signatura trifàsica per a PDF. Aquesta classe no ha de tenir cap dependència directa amb classes d'iText ni d'Afirma, ja que es carrega amb un classloader diferent al de l'applet i no pot accedir a aquestes classes.
+ * @author anadal (u80067)
+ * 17 abr 2026 8:33:14
+ * @deprecated Utilitzar {@link AbstractPadesTriPhaseSigner} en el seu lloc.
  */
+@Deprecated(since="2024-06")
 public abstract class AbstractTriFaseSigner extends MiniAppletClassLoader  {
   
   // final PdfSignResult pre
