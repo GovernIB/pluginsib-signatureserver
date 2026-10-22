@@ -325,9 +325,16 @@ public class AfirmaServerSignatureServerPluginIT {
 
         byte[] upgradeSignatureBytes = plugin.upgradeSignature(signedFileBytes, null,
                 SignatureTypeFormEnumForUpgrade.PAdES_LT_LEVEL, null, null);
+        
+        File resultsDir = new File(RESULTS_PATH);
+        if (!resultsDir.exists()) {
+            resultsDir.mkdirs();
+        }
 
-        File upgradeSignatureFile = new File("upgrade" + System.currentTimeMillis() + ".pdf");
+        File upgradeSignatureFile = new File(resultsDir, "testSignUpgradeSignat.pdf");
         Files.write(upgradeSignatureFile.toPath(), upgradeSignatureBytes);
+        
+        System.out.println("Fitxer amb UPGRADE: " + upgradeSignatureFile.getAbsolutePath());
     }
 
     // =================================
