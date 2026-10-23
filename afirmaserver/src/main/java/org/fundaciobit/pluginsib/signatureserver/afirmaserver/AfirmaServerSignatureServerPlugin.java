@@ -917,7 +917,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         }
 
         String appID = getPropertyRequired(
-                AfirmaServerSignatureServerPlugin.APPLICATIONID_SENSE_SEGELLLAT_DE_TEMPS_PROPERTY);
+                AfirmaServerSignatureServerPlugin.APPLICATIONID_AMB_SEGELLLAT_DE_TEMPS_PROPERTY);
 
         UpgradeSignatureRequest upgSigReq = new UpgradeSignatureRequest();
         upgSigReq.setApplicationId(appID);
