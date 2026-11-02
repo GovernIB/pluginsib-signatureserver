@@ -5,6 +5,7 @@ package org.fundaciobit.pluginsib.signature.api;
  * @author anadal(u80067)
  *
  */
+@Deprecated
 public class PropertyInfo {
 
     protected String key;
